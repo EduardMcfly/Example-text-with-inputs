@@ -50,6 +50,8 @@ import {
   MatTreeModule
 } from "@angular/material";
 
+import { SnackBarComponent } from "./components/snackBar";
+import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import {
   RatesComponent,
@@ -57,16 +59,20 @@ import {
 } from "./rates/rates.component";
 import { VehiclesComponent } from "./vehicles/vehicles.component";
 import { ParkingComponent } from "./parking/parking.component";
+import { HttpErrorHandler } from "./http-error-handler.service";
+import { MessageService } from "./message.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     RatesComponent,
     DialogOverviewExampleDialog,
+    SnackBarComponent,
     VehiclesComponent,
     ParkingComponent
   ],
   imports: [
+    HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -123,8 +129,8 @@ import { ParkingComponent } from "./parking/parking.component";
     MatTreeModule,
     ScrollingModule
   ],
-  entryComponents: [DialogOverviewExampleDialog],
-  providers: [],
+  entryComponents: [DialogOverviewExampleDialog, SnackBarComponent],
+  providers: [HttpErrorHandler, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

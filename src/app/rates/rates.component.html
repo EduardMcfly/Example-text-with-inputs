@@ -3,16 +3,15 @@
   <button mat-button color="accent" (click)="openDialog()">
     Nueva Tarifa
   </button>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile
-      *ngFor="let card of (cards | async)"
-      [colspan]="card.cols"
-      [rowspan]="card.rows"
-    >
-      <mat-card class="dashboard-card">
+  <div class="row">
+    <div class="col-12 justify-content-center d-flex my-2" *ngIf="!cards">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div class="col-6 d-flex my-2" *ngFor="let card of cards">
+      <mat-card class="flex-fill">
         <mat-card-header>
-          <mat-card-title>
-            {{ card.title }}
+          <mat-card-title class="ml-0">
+            {{ card.name }}
             <button
               mat-icon-button
               class="more-button"
@@ -27,10 +26,22 @@
             </mat-menu>
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
+        <mat-card-content>
+          {{ card.description }}
         </mat-card-content>
+        <mat-card-actions>
+          <div class="text-center">
+            <h4 class="mt-0 d-flex align-items-center justify-content-center">
+              <mat-icon aria-label="Side nav toggle icon" class="mr-1">
+                monetization_on
+              </mat-icon>
+              <span>
+                {{ card.value }}
+              </span>
+            </h4>
+          </div>
+        </mat-card-actions>
       </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </div>
 </div>
