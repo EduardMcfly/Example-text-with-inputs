@@ -45,7 +45,8 @@ export class RatesComponent implements OnInit {
       }
     });
     dialogRef.componentInstance.getData = async () => this.getData();
-    dialogRef.componentInstance.openSnackBar = this.openSnackBar;
+    dialogRef.componentInstance.openSnackBar = async obj =>
+      this.openSnackBar(obj);
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
@@ -70,6 +71,7 @@ export class RatesComponent implements OnInit {
       (res): void => {
         const { success, message } = res;
         if (success) {
+          this.getData();
           this.openSnackBar({
             message: message,
             action: "Dance"

@@ -9,15 +9,15 @@ import {
   MatMenuModule,
 } from '@angular/material';
 
-import { EntriesComponent } from './entries.component';
+import { ExitsComponent } from './exits.component';
 
-describe('EntriesComponent', () => {
-  let component: EntriesComponent;
-  let fixture: ComponentFixture<EntriesComponent>;
+describe('ExitsComponent', () => {
+  let component: ExitsComponent;
+  let fixture: ComponentFixture<ExitsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EntriesComponent],
+      declarations: [ExitsComponent],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -31,7 +31,7 @@ describe('EntriesComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EntriesComponent);
+    fixture = TestBed.createComponent(ExitsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

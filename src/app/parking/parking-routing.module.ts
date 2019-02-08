@@ -1,16 +1,22 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { EntrysComponent, ParkingComponent } from "./index";
+import { EntriesComponent, ExitsComponent, ParkingComponent } from "./index";
 
 const heroesRoutes: Routes = [
   {
     path: "parking",
-    component: ParkingComponent
-  },
-  {
-    path: "parking/entrys",
-    component: EntrysComponent
+    component: ParkingComponent,
+    children: [
+      {
+        path: "entries",
+        component: EntriesComponent
+      },
+      {
+        path: "exits",
+        component: ExitsComponent
+      }
+    ]
   }
 ];
 

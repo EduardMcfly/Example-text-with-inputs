@@ -12,19 +12,19 @@
             [matRippleUnbounded]="unbounded"
             [matRippleRadius]="radius"
             [matRippleColor]="color"
-            style="min-height:150px;cursor: pointer;"
+            style="min-height:100px;cursor: pointer;"
             routerLink="/parking/entries"
           >
             <div class="d-block">
               <mat-icon
                 aria-label="Side nav toggle icon"
-                style="font-size: 118px;display: inline;"
+                style="font-size: 50px;display: inline;"
               >
                 class
               </mat-icon>
             </div>
-            <div class="display-4">
-              Entrada
+            <div class="h5 font-weight-light">
+              Vehiculos actualmente en el parqueadero
             </div>
           </div>
         </mat-card-content>
@@ -41,21 +41,21 @@
             [matRippleUnbounded]="unbounded"
             [matRippleRadius]="radius"
             [matRippleColor]="color"
-            style="min-height:150px;cursor: pointer;"
-            routerLink=""
+            style="min-height:100px;cursor: pointer;"
+            routerLink="/parking/exits"
           >
             <div class="d-block">
-              <mat-icon style="font-size: 118px;display: inline;">
+              <mat-icon style="font-size: 50px;display: inline;">
                 exit_to_app
               </mat-icon>
             </div>
-            <div class="display-4">
-              Salida
+            <div class="h5 font-weight-light">
+                Vehiculos que salieron
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
-  <router-outlet name="parking"></router-outlet>
+  <router-outlet></router-outlet>
 </div>

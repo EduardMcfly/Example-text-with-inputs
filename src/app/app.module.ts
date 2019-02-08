@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
-import { materialModule } from "./app.module.material";
+import { MaterialModule } from "./app.module.material";
 /* import { BrowserModule } from "@angular/platform-browser"; */
 
 import { A11yModule } from "@angular/cdk/a11y";
@@ -21,11 +21,12 @@ import { AppRoutingModule } from "./app-routing.module";
 import { RatesComponent, DialogRate } from "./rates";
 import { VehiclesComponent, DialogVehicle } from "./vehicless";
 import { ParkingModule } from "./parking/parking.module";
-import { DialogEntry } from "./parking";
+import { DialogEntry, DialogExit } from "./parking";
 import { HttpErrorHandler } from "./http-error-handler.service";
 import { MessageService } from "./message.service";
 import { RatesService } from "./rates/rates.service";
 import { CapitalizeDirective } from "./_directives/capitalize.directive";
+import { PlateDirective } from "./_directives/plate.directive";
 
 @NgModule({
   declarations: [
@@ -34,11 +35,14 @@ import { CapitalizeDirective } from "./_directives/capitalize.directive";
     DialogRate,
     DialogVehicle,
     DialogEntry,
+    DialogExit,
     SnackBarComponent,
     VehiclesComponent,
-    CapitalizeDirective
+    CapitalizeDirective,
+    PlateDirective
   ],
-  imports: materialModule.concat(
+  imports: [
+    MaterialModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -53,8 +57,8 @@ import { CapitalizeDirective } from "./_directives/capitalize.directive";
     DragDropModule,
     ScrollingModule,
     ParkingModule
-    /* BrowserModule */
-  ),
+  ],
+  /* BrowserModule */
   entryComponents: [DialogRate, DialogVehicle, SnackBarComponent],
   providers: [HttpErrorHandler, MessageService, RatesService],
   bootstrap: [AppComponent]

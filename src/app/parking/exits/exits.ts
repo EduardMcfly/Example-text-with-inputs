@@ -1,4 +1,4 @@
-export interface Entry {
+export interface Exit {
   id?: number;
   plate: string;
   place: string;

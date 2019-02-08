@@ -1,0 +1,76 @@
+<div class="grid-container">
+  <h1 class="mat-h1 font-weight-light text-center mt-3">
+    Vehiculos actualmente en el parqueadero
+  </h1>
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="openDialog({ isNew: true })"
+  >
+    Nuevo Ingreso.
+  </button>
+  <div class="row">
+    <div class="col-12 justify-content-center d-flex my-2" *ngIf="!exits">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div
+      class="col-12 col-sm-6 col-lg-4 col-xs-3 d-flex my-2"
+      *ngFor="let entry of exits"
+    >
+      <mat-card class="flex-fill">
+        <mat-card-header>
+          <mat-card-title class="ml-n3">
+            {{ entry.plate }}
+            <button
+              mat-icon-button
+              class="more-button"
+              [matMenuTriggerFor]="menu"
+              aria-label="Toggle menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button
+                mat-menu-item
+                (click)="openDialog({ entry: entry, isNew: false })"
+              >
+                Editar
+              </button>
+              <button mat-menu-item (click)="remove({ id: entry.id })">
+                Eliminar
+              </button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="d-block">
+            <mat-card-subtitle class="mb-2"
+              >Fecha de ingreso:
+            </mat-card-subtitle>
+            <p>{{ entry.date_arrival }}</p>
+          </div>
+          <div class="d-block">
+            <mat-card-subtitle class="mb-2"
+              >Hora de ingreso:
+            </mat-card-subtitle>
+            <p>{{ entry.hour_arrival }}</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="text-center">
+            <div class="d-block">
+              <mat-icon aria-label="Side nav toggle icon" class="mr-1">
+                place
+              </mat-icon>
+            </div>
+            <h6
+              class="mt-0 d-flex align-items-center justify-content-center font-weight-light"
+            >
+              {{ entry.place }}
+            </h6>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

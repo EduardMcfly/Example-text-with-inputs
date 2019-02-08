@@ -1,24 +1,106 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Vehiculos</h1>
+  <h1 class="mat-h1 font-weight-light text-center mt-3">
+    Vehiculos actualmente en el parqueadero
+  </h1>
   <button
     mat-raised-button
     color="accent"
     (click)="openDialog({ isNew: true })"
   >
-    Nuevo Vehiculo
+    Nuevo Ingreso.
   </button>
   <div class="row">
     <div class="col-12 justify-content-center d-flex my-2" *ngIf="!entries">
       <mat-spinner></mat-spinner>
     </div>
+    <div class="col-12 my-2">
+      <mat-form-field>
+        <input
+          matInput
+          (keyup)="applyFilter($event.target.value)"
+          placeholder="Filter"
+        />
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">
+              <button
+                mat-icon-button
+                class="more-button"
+                [matMenuTriggerFor]="menu"
+                aria-label="Toggle menu"
+              >
+                fsdfsdf
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button
+                  mat-menu-item
+                  (click)="openDialog({ entry: row, isNew: false })"
+                >
+                  Editar
+                </button>
+                <button mat-menu-item (click)="remove({ id: row.id })">
+                  Eliminar
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <!-- Plate Column -->
+          <ng-container matColumnDef="plate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>plate</th>
+            <td mat-cell *matCellDef="let row">{{ row.plate }}</td>
+          </ng-container>
+
+          <!-- Date_arrival Column -->
+          <ng-container matColumnDef="date_arrival">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Date_arrival
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.date_arrival }}</td>
+          </ng-container>
+
+          <!-- Hour_arrival Column -->
+          <ng-container matColumnDef="hour_arrival">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Hour_arrival
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [style.hour_arrival]="row.hour_arrival"
+            >
+              {{ row.hour_arrival }}
+            </td>
+          </ng-container>
+          <!-- Place Column -->
+          <ng-container matColumnDef="place">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Place</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.place }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
     <div
-      class="col-12 col-sm-6 col-lg-4 d-flex my-2"
+      class="col-12 col-sm-6 col-lg-4 col-xs-3 d-flex my-2"
       *ngFor="let entry of entries"
     >
       <mat-card class="flex-fill">
         <mat-card-header>
           <mat-card-title class="ml-n3">
-            {{ entry.brand }}
+            {{ entry.plate }}
             <button
               mat-icon-button
               class="more-button"
@@ -41,19 +123,31 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-card-subtitle class="mb-2">Descripcion:</mat-card-subtitle>
-          <p>Placa: {{ entry.plate }} Año: {{ entry.yaer }}</p>
+          <div class="d-block">
+            <mat-card-subtitle class="mb-2"
+              >Fecha de ingreso:
+            </mat-card-subtitle>
+            <p>{{ entry.date_arrival }}</p>
+          </div>
+          <div class="d-block">
+            <mat-card-subtitle class="mb-2"
+              >Hora de ingreso:
+            </mat-card-subtitle>
+            <p>{{ entry.hour_arrival }}</p>
+          </div>
         </mat-card-content>
         <mat-card-actions>
           <div class="text-center">
-            <h4 class="mt-0 d-flex align-items-center justify-content-center">
+            <div class="d-block">
               <mat-icon aria-label="Side nav toggle icon" class="mr-1">
-                monetization_on
+                place
               </mat-icon>
-              <span>
-                {{ entry.year }}
-              </span>
-            </h4>
+            </div>
+            <h6
+              class="mt-0 d-flex align-items-center justify-content-center font-weight-light"
+            >
+              {{ entry.place }}
+            </h6>
           </div>
         </mat-card-actions>
       </mat-card>

@@ -5,7 +5,7 @@ import { HttpHeaders } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 
-import { Entry } from "./entries";
+import { Exit } from "./exits";
 import {
   HttpErrorHandler,
   HandleError
@@ -22,19 +22,19 @@ const httpOptions = {
 
 interface Response {
   success: boolean;
-  data: Entry[];
+  data: Exit[];
   message: string;
   errors: any;
 }
 
 @Injectable({ providedIn: "root" })
-export class EntriesService {
-  entriesUrl = "http://powerful-brushlands-67246.herokuapp.com/api/entries"; // URL to web api
+export class ExitsService {
+  exitsUrl = "http://powerful-brushlands-67246.herokuapp.com/api/exits"; // URL to web api
   private handleError: HandleError;
   private subject = new Subject<any>();
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError("EntriesService");
+    this.handleError = httpErrorHandler.createHandleError("ExitsService");
   }
 
   getMessage(): Observable<any> {
@@ -49,34 +49,34 @@ export class EntriesService {
     this.subject.next();
   }
 
-  /** GET entries from the server */
-  getEntries(): Observable<{ success: boolean; data: Entry[] }> {
+  /** GET exits from the server */
+  getExits(): Observable<{ success: boolean; data: Exit[] }> {
     return this.http
-      .get<{ success: boolean; data: Entry[] }>(this.entriesUrl)
+      .get<{ success: boolean; data: Exit[] }>(this.exitsUrl)
       .pipe(
-        catchError(this.handleError("getEntries", { success: false, data: [] }))
+        catchError(this.handleError("getExits", { success: false, data: [] }))
       );
   }
 
-  /* GET entries whose name contains search term */
-  searchEntries(term: string): Observable<Entry[]> {
+  /* GET exits whose name contains search term */
+  searchExits(term: string): Observable<Exit[]> {
     term = term.trim();
 
     // Add safe, URL encoded search parameter if there is a search term
     const options = term ? { params: new HttpParams().set("name", term) } : {};
 
     return this.http
-      .get<Entry[]>(this.entriesUrl, options)
-      .pipe(catchError(this.handleError<Entry[]>("searchEntries", [])));
+      .get<Exit[]>(this.exitsUrl, options)
+      .pipe(catchError(this.handleError<Exit[]>("searchExits", [])));
   }
 
   //////// Save methods //////////
 
   /** POST: add a new entry to the database */
-  addEntry(entry: Entry): Observable<Response> {
-    return this.http.post<Response>(this.entriesUrl, entry).pipe(
+  addExit(entry: Exit): Observable<Response> {
+    return this.http.post<Response>(this.exitsUrl, entry).pipe(
       catchError(
-        this.handleError("addEntries", {
+        this.handleError("addExits", {
           success: false,
           data: [],
           message: "",
@@ -87,11 +87,11 @@ export class EntriesService {
   }
 
   /** DELETE: delete the entry from the server */
-  deleteEntry(id: number): Observable<Response> {
-    const url = `${this.entriesUrl}/${id}`; // DELETE api/entries/42
+  deleteExit(id: number): Observable<Response> {
+    const url = `${this.exitsUrl}/${id}`; // DELETE api/exits/42
     return this.http.delete<Response>(url, httpOptions).pipe(
       catchError(
-        this.handleError("deleteEntries", {
+        this.handleError("deleteExits", {
           success: false,
           data: [],
           message: "",
@@ -102,17 +102,17 @@ export class EntriesService {
   }
 
   /** PUT: update the entry on the server. Returns the updated entry upon success. */
-  updateEntry(entry: Entry): Observable<Response> {
+  updateExit(entry: Exit): Observable<Response> {
     httpOptions.headers = httpOptions.headers.set(
       "Authorization",
       "my-new-auth-token"
     );
 
     return this.http
-      .put<Response>(`${this.entriesUrl}/${entry.id}`, entry, httpOptions)
+      .put<Response>(`${this.exitsUrl}/${entry.id}`, entry, httpOptions)
       .pipe(
         catchError(
-          this.handleError("updateEntries", {
+          this.handleError("updateExits", {
             success: false,
             data: [],
             message: "",

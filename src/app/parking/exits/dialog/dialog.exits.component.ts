@@ -14,8 +14,8 @@ import {
   ErrorStateMatcher
 } from "@angular/material";
 
-import { Entry } from "../entries";
-import { EntriesService } from "../entries.service";
+import { Exit } from "../exits";
+import { ExitsService } from "../exits.service";
 import * as _ from "lodash";
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
@@ -28,28 +28,28 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: "dialog-entries",
-  providers: [EntriesService],
-  templateUrl: "dialog.entries.component.html"
+  selector: "dialog-exits",
+  providers: [ExitsService],
+  templateUrl: "dialog.exits.component.html"
 })
-export class DialogEntry implements OnInit {
+export class DialogExit implements OnInit {
   entryForm: FormGroup;
   submitted = false;
   loading = false;
   getData: Function;
   openSnackBar: Function;
   isNew: boolean;
-  heroes: Entry[];
-  editEntries: Entry; // the hero currently being edited
+  heroes: Exit[];
+  editExits: Exit; // the hero currently being edited
   errorMatcher = new CrossFieldErrorMatcher();
 
   constructor(
-    public dialogRef: MatDialogRef<DialogEntry>,
+    public dialogRef: MatDialogRef<DialogExit>,
     private formBuilder: FormBuilder,
-    private entriesService: EntriesService,
+    private exitsService: ExitsService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      entry: Entry;
+      entry: Exit;
       isNew: boolean;
       reloadData: Function;
     }
@@ -112,14 +112,14 @@ export class DialogEntry implements OnInit {
     }
     this.loading = true;
     // The server will geneentry the id for this new hero
-    const newEntries: Entry = {
+    const newExits: Exit = {
       plate: plate.value,
       place: place.value,
       date_arrival: date_arrival.value,
       hour_arrival: hour_arrival.value
-    } as Entry;
+    } as Exit;
     if (this.isNew) {
-      this.entriesService.addEntry(newEntries).subscribe(res => {
+      this.exitsService.addExit(newExits).subscribe(res => {
         const { message, success } = res;
         if (success) {
           this.openSnackBar({
@@ -138,8 +138,8 @@ export class DialogEntry implements OnInit {
       });
     } else {
       const { entry } = this.data;
-      this.entriesService
-        .updateEntry({ ...newEntries, id: entry.id } as Entry)
+      this.exitsService
+        .updateExit({ ...newExits, id: entry.id } as Exit)
         .subscribe(res => {
           const { success, message } = res;
           if (success) {

@@ -120,14 +120,14 @@ export class DialogRate implements OnInit {
     } as Rate;
     if (this.isNew) {
       this.ratesService.addRate(newRates).subscribe(res => {
-        const { message, success } = res;
+        const { message = "", success = false } = res || {};
         if (success) {
+          this.getData();
           this.openSnackBar({
             message: message,
             action: "Dance"
           });
           this.closeDialog();
-          this.getData();
         }
       });
     } else {
@@ -137,12 +137,12 @@ export class DialogRate implements OnInit {
         .subscribe(res => {
           const { success, message } = res;
           if (success) {
+            this.getData();
             this.openSnackBar({
               message: message,
               action: "Dance"
             });
             this.closeDialog();
-            this.getData();
           }
         });
     }

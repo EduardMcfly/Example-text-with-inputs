@@ -1,26 +1,28 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { DatePipe } from "@angular/common";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { Subscription } from "rxjs";
 
-import { Vehicle } from "./vehicles";
-import { VehiclesService } from "./vehicles.service";
+import { Exit } from "./exits";
+import { ExitsService } from "./exits.service";
 import * as _ from "lodash";
-import { DialogVehicle } from "./dialog/dialog.vehicles.component";
+import { DialogExit } from "./dialog/dialog.exits.component";
 
 @Component({
-  selector: "app-vehicles",
-  templateUrl: "./vehicles.component.html",
-  providers: [VehiclesService],
-  styleUrls: ["./vehicles.component.css"]
+  selector: "app-exits",
+  templateUrl: "./exits.component.html",
+  providers: [ExitsService, DatePipe],
+  styleUrls: ["./exits.component.css"]
 })
-export class VehiclesComponent implements OnInit {
+export class ExitsComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
-  vehicles: Vehicle[];
+  exits: Exit[];
 
   constructor(
     public dialog: MatDialog,
-    private vehiclesService: VehiclesService,
+    private datePipe: DatePipe,
+    private exitsService: ExitsService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -29,16 +31,23 @@ export class VehiclesComponent implements OnInit {
   }
 
   getData() {
-    this.vehiclesService.getVehicles().subscribe(vehicle => {
-      const { data } = vehicle;
-      this.vehicles = data.map((obj, key) => {
-        return { ...obj, cols: 1, rows: 1 };
+    this.exitsService.getExits().subscribe(entry => {
+      const { data } = entry;
+      this.exits = data.map((obj, key) => {
+        return {
+          ...obj,
+          hour_arrival: this.datePipe.transform(
+            obj.hour_arrival,
+            "hh:mm",
+            "UTC"
+          )
+        };
       });
     });
   }
 
   openDialog(data) {
-    const dialogRef = this.dialog.open(DialogVehicle, {
+    const dialogRef = this.dialog.open(DialogExit, {
       data: {
         ...data
       }
@@ -66,7 +75,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   remove({ id }: { id: number }): void {
-    this.vehiclesService.deleteVehicle(id).subscribe(
+    this.exitsService.deleteExit(id).subscribe(
       (res): void => {
         const { success, message } = res;
         if (success) {

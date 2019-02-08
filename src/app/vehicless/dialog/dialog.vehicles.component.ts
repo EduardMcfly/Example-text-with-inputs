@@ -118,7 +118,7 @@ export class DialogVehicle implements OnInit {
     } as Vehicle;
     if (this.isNew) {
       this.vehiclesService.addVehicle(newVehicles).subscribe(res => {
-        const { message, success } = res;
+        const { message = "", success = false } = res || {};
         if (success) {
           this.openSnackBar({
             message: message,
