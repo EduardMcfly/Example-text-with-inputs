@@ -5,8 +5,11 @@ import { HttpHeaders } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 
-import { Rate } from "./rates";
-import { HttpErrorHandler, HandleError } from "../http-error-handler.service";
+import { Entry } from "./entries";
+import {
+  HttpErrorHandler,
+  HandleError
+} from "../../http-error-handler.service";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -19,18 +22,18 @@ const httpOptions = {
 
 interface Response {
   success: boolean;
-  data: Rate[];
+  data: Entry[];
   message: string;
 }
 
 @Injectable({ providedIn: "root" })
-export class RatesService {
-  ratesUrl = "http://powerful-brushlands-67246.herokuapp.com/api/rates"; // URL to web api
+export class EntrysService {
+  entriesUrl = "http://powerful-brushlands-67246.herokuapp.com/api/entries"; // URL to web api
   private handleError: HandleError;
   private subject = new Subject<any>();
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError("RatesService");
+    this.handleError = httpErrorHandler.createHandleError("EntrysService");
   }
 
   getMessage(): Observable<any> {
@@ -45,34 +48,34 @@ export class RatesService {
     this.subject.next();
   }
 
-  /** GET rates from the server */
-  getRates(): Observable<{ success: boolean; data: Rate[] }> {
+  /** GET entries from the server */
+  getEntrys(): Observable<{ success: boolean; data: Entry[] }> {
     return this.http
-      .get<{ success: boolean; data: Rate[] }>(this.ratesUrl)
+      .get<{ success: boolean; data: Entry[] }>(this.entriesUrl)
       .pipe(
-        catchError(this.handleError("getRates", { success: false, data: [] }))
+        catchError(this.handleError("getEntrys", { success: false, data: [] }))
       );
   }
 
-  /* GET rates whose name contains search term */
-  searchRates(term: string): Observable<Rate[]> {
+  /* GET entries whose name contains search term */
+  searchEntrys(term: string): Observable<Entry[]> {
     term = term.trim();
 
     // Add safe, URL encoded search parameter if there is a search term
     const options = term ? { params: new HttpParams().set("name", term) } : {};
 
     return this.http
-      .get<Rate[]>(this.ratesUrl, options)
-      .pipe(catchError(this.handleError<Rate[]>("searchRates", [])));
+      .get<Entry[]>(this.entriesUrl, options)
+      .pipe(catchError(this.handleError<Entry[]>("searchEntrys", [])));
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new rate to the database */
-  addRate(rate: Rate): Observable<Response> {
-    return this.http.post<Response>(this.ratesUrl, rate).pipe(
+  /** POST: add a new entry to the database */
+  addEntry(entry: Entry): Observable<Response> {
+    return this.http.post<Response>(this.entriesUrl, entry).pipe(
       catchError(
-        this.handleError("addRates", {
+        this.handleError("addEntrys", {
           success: false,
           data: [],
           message: ""
@@ -81,12 +84,12 @@ export class RatesService {
     );
   }
 
-  /** DELETE: delete the rate from the server */
-  deleteRate(id: number): Observable<Response> {
-    const url = `${this.ratesUrl}/${id}`; // DELETE api/rates/42
+  /** DELETE: delete the entry from the server */
+  deleteEntry(id: number): Observable<Response> {
+    const url = `${this.entriesUrl}/${id}`; // DELETE api/entries/42
     return this.http.delete<Response>(url, httpOptions).pipe(
       catchError(
-        this.handleError("deleteRates", {
+        this.handleError("deleteEntrys", {
           success: false,
           data: [],
           message: ""
@@ -95,16 +98,16 @@ export class RatesService {
     );
   }
 
-  /** PUT: update the rate on the server. Returns the updated rate upon success. */
-  updateRate(rate: Rate): Observable<Response> {
+  /** PUT: update the entry on the server. Returns the updated entry upon success. */
+  updateEntry(entry: Entry): Observable<Response> {
     httpOptions.headers = httpOptions.headers.set(
       "Authorization",
       "my-new-auth-token"
     );
 
-    return this.http.put<Response>(this.ratesUrl, rate, httpOptions).pipe(
+    return this.http.put<Response>(this.entriesUrl, entry, httpOptions).pipe(
       catchError(
-        this.handleError("updateRates", {
+        this.handleError("updateEntrys", {
           success: false,
           data: [],
           message: ""

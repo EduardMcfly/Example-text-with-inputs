@@ -1,0 +1,61 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <div class="row">
+    <div class="col-12 col-sm-6 d-flex my-2">
+      <mat-card class="flex-fill">
+        <mat-card-content>
+          <div
+            class="container text-center"
+            matRipple
+            [matRippleCentered]="centered"
+            [matRippleDisabled]="disabled"
+            [matRippleUnbounded]="unbounded"
+            [matRippleRadius]="radius"
+            [matRippleColor]="color"
+            style="min-height:150px;cursor: pointer;"
+            routerLink="/parking/entries"
+          >
+            <div class="d-block">
+              <mat-icon
+                aria-label="Side nav toggle icon"
+                style="font-size: 118px;display: inline;"
+              >
+                class
+              </mat-icon>
+            </div>
+            <div class="display-4">
+              Entrada
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-12 col-sm-6 d-flex my-2">
+      <mat-card class="flex-fill">
+        <mat-card-content>
+          <div
+            class="container text-center"
+            matRipple
+            [matRippleCentered]="centered"
+            [matRippleDisabled]="disabled"
+            [matRippleUnbounded]="unbounded"
+            [matRippleRadius]="radius"
+            [matRippleColor]="color"
+            style="min-height:150px;cursor: pointer;"
+            routerLink=""
+          >
+            <div class="d-block">
+              <mat-icon style="font-size: 118px;display: inline;">
+                exit_to_app
+              </mat-icon>
+            </div>
+            <div class="display-4">
+              Salida
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <router-outlet name="parking"></router-outlet>
+</div>

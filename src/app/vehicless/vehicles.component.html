@@ -1,24 +1,24 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Tarifas</h1>
+  <h1 class="mat-h1">Vehiculos</h1>
   <button
     mat-raised-button
     color="accent"
     (click)="openDialog({ isNew: true })"
   >
-    Nueva Tarifa
+    Nuevo Vehiculo
   </button>
   <div class="row">
-    <div class="col-12 justify-content-center d-flex my-2" *ngIf="!rates">
+    <div class="col-12 justify-content-center d-flex my-2" *ngIf="!vehicles">
       <mat-spinner></mat-spinner>
     </div>
     <div
       class="col-12 col-sm-6 col-lg-4 d-flex my-2"
-      *ngFor="let rate of rates"
+      *ngFor="let vehicle of vehicles"
     >
       <mat-card class="flex-fill">
         <mat-card-header>
           <mat-card-title class="ml-n3">
-            {{ rate.name }}
+            {{ vehicle.brand }}
             <button
               mat-icon-button
               class="more-button"
@@ -30,11 +30,11 @@
             <mat-menu #menu="matMenu" xPosition="before">
               <button
                 mat-menu-item
-                (click)="openDialog({ rate: rate, isNew: false })"
+                (click)="openDialog({ vehicle: vehicle, isNew: false })"
               >
                 Editar
               </button>
-              <button mat-menu-item (click)="remove({ id: rate.id })">
+              <button mat-menu-item (click)="remove({ id: vehicle.id })">
                 Eliminar
               </button>
             </mat-menu>
@@ -42,9 +42,7 @@
         </mat-card-header>
         <mat-card-content>
           <mat-card-subtitle class="mb-2">Descripcion:</mat-card-subtitle>
-          <p>
-            {{ rate.description }}
-          </p>
+          <p>Placa: {{ vehicle.plate }} Año: {{ vehicle.yaer }}</p>
         </mat-card-content>
         <mat-card-actions>
           <div class="text-center">
@@ -53,7 +51,7 @@
                 monetization_on
               </mat-icon>
               <span>
-                {{ rate.value }}
+                {{ vehicle.year }}
               </span>
             </h4>
           </div>

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-
+import { MatSnackBar } from "@angular/material";
 @Component({
   selector: "snack-bar-component-snack",
   template: `
@@ -19,4 +19,19 @@ import { Component } from "@angular/core";
     `
   ]
 })
-export class SnackBarComponent {}
+export class SnackBarComponent {
+  constructor(private snackBar: MatSnackBar) {}
+  openSnackBar({
+    message,
+    action,
+    time = 1000
+  }: {
+    message: string;
+    action: string;
+    time?: number;
+  }) {
+    this.snackBar.open(message, action, {
+      duration: time
+    });
+  }
+}

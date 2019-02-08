@@ -2,25 +2,25 @@ import { Component, OnInit, Input } from "@angular/core";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { Subscription } from "rxjs";
 
-import { Rate } from "./rates";
-import { RatesService } from "./rates.service";
+import { Vehicle } from "./vehicles";
+import { VehiclesService } from "./vehicles.service";
 import * as _ from "lodash";
-import { DialogRate } from "./dialog/dialog.rates.component";
+import { DialogVehicle } from "./dialog/dialog.vehicles.component";
 
 @Component({
-  selector: "app-rates",
-  templateUrl: "./rates.component.html",
-  providers: [RatesService],
-  styleUrls: ["./rates.component.css"]
+  selector: "app-vehicles",
+  templateUrl: "./vehicles.component.html",
+  providers: [VehiclesService],
+  styleUrls: ["./vehicles.component.css"]
 })
-export class RatesComponent implements OnInit {
+export class VehiclesComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
-  rates: Rate[];
+  vehicles: Vehicle[];
 
   constructor(
     public dialog: MatDialog,
-    private ratesService: RatesService,
+    private vehiclesService: VehiclesService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -29,19 +29,18 @@ export class RatesComponent implements OnInit {
   }
 
   getData() {
-    this.ratesService.getRates().subscribe(rate => {
-      const { data } = rate;
-      this.rates = data.map((obj, key) => {
+    this.vehiclesService.getVehicles().subscribe(vehicle => {
+      const { data } = vehicle;
+      this.vehicles = data.map((obj, key) => {
         return { ...obj, cols: 1, rows: 1 };
       });
     });
   }
 
   openDialog(data) {
-    const dialogRef = this.dialog.open(DialogRate, {
+    const dialogRef = this.dialog.open(DialogVehicle, {
       data: {
-        ...data,
-        reloadData: this.getData
+        ...data
       }
     });
     dialogRef.componentInstance.getData = async () => this.getData();
@@ -66,7 +65,7 @@ export class RatesComponent implements OnInit {
   }
 
   remove({ id }: { id: number }): void {
-    this.ratesService.deleteRate(id).subscribe(
+    this.vehiclesService.deleteVehicle(id).subscribe(
       (res): void => {
         const { success, message } = res;
         if (success) {

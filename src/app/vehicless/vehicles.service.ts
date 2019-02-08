@@ -5,7 +5,7 @@ import { HttpHeaders } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 
-import { Rate } from "./rates";
+import { Vehicle } from "./vehicles";
 import { HttpErrorHandler, HandleError } from "../http-error-handler.service";
 
 const httpOptions = {
@@ -19,18 +19,18 @@ const httpOptions = {
 
 interface Response {
   success: boolean;
-  data: Rate[];
+  data: Vehicle[];
   message: string;
 }
 
 @Injectable({ providedIn: "root" })
-export class RatesService {
-  ratesUrl = "http://powerful-brushlands-67246.herokuapp.com/api/rates"; // URL to web api
+export class VehiclesService {
+  vehiclesUrl = "http://powerful-brushlands-67246.herokuapp.com/api/vehicles"; // URL to web api
   private handleError: HandleError;
   private subject = new Subject<any>();
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError("RatesService");
+    this.handleError = httpErrorHandler.createHandleError("VehiclesService");
   }
 
   getMessage(): Observable<any> {
@@ -45,34 +45,34 @@ export class RatesService {
     this.subject.next();
   }
 
-  /** GET rates from the server */
-  getRates(): Observable<{ success: boolean; data: Rate[] }> {
+  /** GET vehicles from the server */
+  getVehicles(): Observable<{ success: boolean; data: Vehicle[] }> {
     return this.http
-      .get<{ success: boolean; data: Rate[] }>(this.ratesUrl)
+      .get<{ success: boolean; data: Vehicle[] }>(this.vehiclesUrl)
       .pipe(
-        catchError(this.handleError("getRates", { success: false, data: [] }))
+        catchError(this.handleError("getVehicles", { success: false, data: [] }))
       );
   }
 
-  /* GET rates whose name contains search term */
-  searchRates(term: string): Observable<Rate[]> {
+  /* GET vehicles whose name contains search term */
+  searchVehicles(term: string): Observable<Vehicle[]> {
     term = term.trim();
 
     // Add safe, URL encoded search parameter if there is a search term
     const options = term ? { params: new HttpParams().set("name", term) } : {};
 
     return this.http
-      .get<Rate[]>(this.ratesUrl, options)
-      .pipe(catchError(this.handleError<Rate[]>("searchRates", [])));
+      .get<Vehicle[]>(this.vehiclesUrl, options)
+      .pipe(catchError(this.handleError<Vehicle[]>("searchVehicles", [])));
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new rate to the database */
-  addRate(rate: Rate): Observable<Response> {
-    return this.http.post<Response>(this.ratesUrl, rate).pipe(
+  /** POST: add a new vehicle to the database */
+  addVehicle(vehicle: Vehicle): Observable<Response> {
+    return this.http.post<Response>(this.vehiclesUrl, vehicle).pipe(
       catchError(
-        this.handleError("addRates", {
+        this.handleError("addVehicles", {
           success: false,
           data: [],
           message: ""
@@ -81,12 +81,12 @@ export class RatesService {
     );
   }
 
-  /** DELETE: delete the rate from the server */
-  deleteRate(id: number): Observable<Response> {
-    const url = `${this.ratesUrl}/${id}`; // DELETE api/rates/42
+  /** DELETE: delete the vehicle from the server */
+  deleteVehicle(id: number): Observable<Response> {
+    const url = `${this.vehiclesUrl}/${id}`; // DELETE api/vehicles/42
     return this.http.delete<Response>(url, httpOptions).pipe(
       catchError(
-        this.handleError("deleteRates", {
+        this.handleError("deleteVehicles", {
           success: false,
           data: [],
           message: ""
@@ -95,16 +95,16 @@ export class RatesService {
     );
   }
 
-  /** PUT: update the rate on the server. Returns the updated rate upon success. */
-  updateRate(rate: Rate): Observable<Response> {
+  /** PUT: update the vehicle on the server. Returns the updated vehicle upon success. */
+  updateVehicle(vehicle: Vehicle): Observable<Response> {
     httpOptions.headers = httpOptions.headers.set(
       "Authorization",
       "my-new-auth-token"
     );
 
-    return this.http.put<Response>(this.ratesUrl, rate, httpOptions).pipe(
+    return this.http.put<Response>(this.vehiclesUrl, vehicle, httpOptions).pipe(
       catchError(
-        this.handleError("updateRates", {
+        this.handleError("updateVehicles", {
           success: false,
           data: [],
           message: ""

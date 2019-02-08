@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { RatesComponent } from "./rates/rates.component";
-import { VehiclesComponent } from "./vehicles/vehicles.component";
-import { ParkingComponent } from "./parking/parking.component";
+import { VehiclesComponent } from "./vehicless";
+import { ParkingComponent } from "./parking";
 
 const routes: Routes = [
   { path: "rates", component: RatesComponent },

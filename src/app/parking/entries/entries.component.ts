@@ -2,25 +2,25 @@ import { Component, OnInit, Input } from "@angular/core";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { Subscription } from "rxjs";
 
-import { Rate } from "./rates";
-import { RatesService } from "./rates.service";
+import { Entry } from "./entries";
+import { EntrysService } from "./entries.service";
 import * as _ from "lodash";
-import { DialogRate } from "./dialog/dialog.rates.component";
+import { DialogEntry } from "./dialog/dialog.entries.component";
 
 @Component({
-  selector: "app-rates",
-  templateUrl: "./rates.component.html",
-  providers: [RatesService],
-  styleUrls: ["./rates.component.css"]
+  selector: "app-entries",
+  templateUrl: "./entries.component.html",
+  providers: [EntrysService],
+  styleUrls: ["./entries.component.css"]
 })
-export class RatesComponent implements OnInit {
+export class EntrysComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
-  rates: Rate[];
+  entries: Entry[];
 
   constructor(
     public dialog: MatDialog,
-    private ratesService: RatesService,
+    private entriesService: EntrysService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -29,19 +29,18 @@ export class RatesComponent implements OnInit {
   }
 
   getData() {
-    this.ratesService.getRates().subscribe(rate => {
-      const { data } = rate;
-      this.rates = data.map((obj, key) => {
+    this.entriesService.getEntrys().subscribe(entry => {
+      const { data } = entry;
+      this.entries = data.map((obj, key) => {
         return { ...obj, cols: 1, rows: 1 };
       });
     });
   }
 
   openDialog(data) {
-    const dialogRef = this.dialog.open(DialogRate, {
+    const dialogRef = this.dialog.open(DialogEntry, {
       data: {
-        ...data,
-        reloadData: this.getData
+        ...data
       }
     });
     dialogRef.componentInstance.getData = async () => this.getData();
@@ -66,7 +65,7 @@ export class RatesComponent implements OnInit {
   }
 
   remove({ id }: { id: number }): void {
-    this.ratesService.deleteRate(id).subscribe(
+    this.entriesService.deleteEntry(id).subscribe(
       (res): void => {
         const { success, message } = res;
         if (success) {
