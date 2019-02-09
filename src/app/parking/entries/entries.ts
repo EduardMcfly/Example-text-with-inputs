@@ -4,4 +4,6 @@ export interface Entry {
   place: string;
   date_arrival: string;
   hour_arrival: string;
+  date_departure: string;
+  hour_departure: string;
 }

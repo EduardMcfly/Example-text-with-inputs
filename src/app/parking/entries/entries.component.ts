@@ -5,9 +5,11 @@ import { MatDialog, MatSnackBar } from "@angular/material";
 import { Subscription } from "rxjs";
 
 import { Entry } from "./entries";
+import { Rate, RatesService } from "../../rates/index";
 import { EntriesService } from "./entries.service";
 import * as _ from "lodash";
-import { DialogEntry } from "./dialog/dialog.entries.component";
+import { DialogEntry, DialogCreateExit } from "./";
+import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
 
 @Component({
   selector: "app-entries",
@@ -31,11 +33,13 @@ export class EntriesComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
   entries: Entry[];
+  rates: Rate[];
 
   constructor(
     public dialog: MatDialog,
     private datePipe: DatePipe,
     private entriesService: EntriesService,
+    private ratesService: RatesService,
     private snackBar: MatSnackBar
   ) {
     // Assign the data to the data source for the table to render
@@ -43,6 +47,16 @@ export class EntriesComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+    this.getRates();
+  }
+
+  getRates() {
+    this.ratesService.getRates().subscribe(rate => {
+      const { data } = rate;
+      this.rates = data.map((obj, key) => {
+        return { ...obj, cols: 1, rows: 1 };
+      });
+    });
   }
 
   applyFilter(filterValue: string) {
@@ -85,6 +99,21 @@ export class EntriesComponent implements OnInit {
     });
   }
 
+  openDialogCreateExit(data) {
+    const dialogRef = this.dialog.open(DialogCreateExit, {
+      data: {
+        entry_id: data.id
+      }
+    });
+    dialogRef.componentInstance.rates = this.rates;
+    dialogRef.componentInstance.getData = async () => this.getData();
+    dialogRef.componentInstance.openSnackBar = async obj =>
+      this.openSnackBar(obj);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   openSnackBar({
     message,
     action,
@@ -100,17 +129,22 @@ export class EntriesComponent implements OnInit {
   }
 
   remove({ id }: { id: number }): void {
-    this.entriesService.deleteEntry(id).subscribe(
-      (res): void => {
-        const { success, message } = res;
-        if (success) {
-          this.getData();
-          this.openSnackBar({
-            message: message,
-            action: "Dance"
-          });
-        }
+    const dialogRef = this.dialog.open(DialogConfirm);
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.entriesService.deleteEntry(id).subscribe(
+          (res): void => {
+            const { success, message } = res;
+            if (success) {
+              this.getData();
+              this.openSnackBar({
+                message: message,
+                action: "Exit"
+              });
+            }
+          }
+        );
       }
-    );
+    });
   }
 }
