@@ -6,6 +6,7 @@ import { Rate } from "./rates";
 import { RatesService } from "./rates.service";
 import * as _ from "lodash";
 import { DialogRate } from "./dialog/dialog.rates.component";
+import { DialogConfirm } from "../components/dialog.confirm/dialog.confirm.component";
 
 @Component({
   selector: "app-rates",
@@ -20,6 +21,7 @@ export class RatesComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    public dialogConfirm: MatDialog,
     private ratesService: RatesService,
     private snackBar: MatSnackBar
   ) {}
@@ -67,17 +69,29 @@ export class RatesComponent implements OnInit {
   }
 
   remove({ id }: { id: number }): void {
-    this.ratesService.deleteRate(id).subscribe(
-      (res): void => {
-        const { success, message } = res;
-        if (success) {
-          this.getData();
-          this.openSnackBar({
-            message: message,
-            action: "Dance"
-          });
-        }
+    const dialogConfirm = this.dialog.open(DialogConfirm);
+    dialogConfirm.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.ratesService.deleteRate(id).subscribe(
+          (res): void => {
+            const { success, message } = res;
+            if (success) {
+              this.getData();
+              this.openSnackBar({
+                message: message,
+                action: "Exit"
+              });
+            } else {
+              this.openSnackBar({
+                message: res.errors.errors,
+                time: 3000,
+                action: "Exit"
+              });
+            }
+          },
+          err => console.log(err)
+        );
       }
-    );
+    });
   }
 }

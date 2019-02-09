@@ -102,15 +102,17 @@ export class RatesService {
       "my-new-auth-token"
     );
 
-    return this.http.put<Response>(this.ratesUrl, rate, httpOptions).pipe(
-      catchError(
-        this.handleError("updateRates", {
-          success: false,
-          data: [],
-          message: ""
-        })
-      )
-    );
+    return this.http
+      .put<Response>(`${this.ratesUrl}/${rate.id}`, rate, httpOptions)
+      .pipe(
+        catchError(
+          this.handleError("updateRates", {
+            success: false,
+            data: [],
+            message: ""
+          })
+        )
+      );
   }
 }
 
