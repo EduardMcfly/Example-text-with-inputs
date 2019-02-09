@@ -30,24 +30,25 @@
             <td mat-cell *matCellDef="let row">
               <button
                 mat-icon-button
-                class="more-button"
-                [matMenuTriggerFor]="menu"
                 aria-label="Toggle menu"
+                (click)="remove({ id: row.id })"
               >
-                fsdfsdf
-                <mat-icon>more_vert</mat-icon>
+                <mat-icon>cancel</mat-icon>
               </button>
-              <mat-menu #menu="matMenu" xPosition="before">
-                <button
-                  mat-menu-item
-                  (click)="openDialog({ entry: row, isNew: false })"
-                >
-                  Editar
-                </button>
-                <button mat-menu-item (click)="remove({ id: row.id })">
-                  Eliminar
-                </button>
-              </mat-menu>
+              <button
+                mat-icon-button
+                aria-label="Toggle menu"
+                (click)="openDialog({ entry: row, isNew: false })"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                aria-label="Toggle menu"
+                (click)="openDialogCreateExit({ id: row.id, isNew: false })"
+              >
+                <mat-icon>exit_to_app</mat-icon>
+              </button>
             </td>
           </ng-container>
 
