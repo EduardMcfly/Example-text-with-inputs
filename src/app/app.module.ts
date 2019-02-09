@@ -21,13 +21,23 @@ import { AppRoutingModule } from "./app-routing.module";
 import { RatesComponent, DialogRate } from "./rates";
 import { VehiclesComponent, DialogVehicle } from "./vehicless";
 import { ParkingModule } from "./parking/parking.module";
-import { DialogEntry, DialogExit } from "./parking";
+import { DialogEntry, DialogExit, DialogCreateExit } from "./parking";
 import { HttpErrorHandler } from "./http-error-handler.service";
 import { MessageService } from "./message.service";
 import { RatesService } from "./rates/rates.service";
 import { CapitalizeDirective } from "./_directives/capitalize.directive";
 import { PlateDirective } from "./_directives/plate.directive";
-
+import {
+  MatGridListModule,
+  MatCardModule,
+  MatMenuModule,
+  MatIconModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatListModule
+} from "@angular/material";
+import { DialogConfirm } from "./components/dialog.confirm/dialog.confirm.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +45,9 @@ import { PlateDirective } from "./_directives/plate.directive";
     DialogRate,
     DialogVehicle,
     DialogEntry,
+    DialogCreateExit,
     DialogExit,
+    DialogConfirm,
     SnackBarComponent,
     VehiclesComponent,
     CapitalizeDirective,
@@ -56,7 +68,15 @@ import { PlateDirective } from "./_directives/plate.directive";
     CdkTreeModule,
     DragDropModule,
     ScrollingModule,
-    ParkingModule
+    ParkingModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
   ],
   /* BrowserModule */
   entryComponents: [DialogRate, DialogVehicle, SnackBarComponent],
