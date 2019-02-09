@@ -1,28 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { DatePipe } from '@angular/common';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { DatePipe } from "@angular/common";
+import { MatDialog, MatSnackBar } from "@angular/material";
+import { Subscription } from "rxjs";
 
-import { Entry } from './entries';
-import { EntriesService } from './entries.service';
-import * as _ from 'lodash';
-import { DialogEntry, DialogCreateExit } from './';
-import { DialogConfirm } from '../../components/dialog.confirm/dialog.confirm.component';
+import { Entry } from "./entries";
+import { EntriesService } from "./entries.service";
+import * as _ from "lodash";
+import { DialogEntry, DialogCreateExit } from "./";
+import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
 
 @Component({
-  selector: 'app-entries',
-  templateUrl: './entries.component.html',
+  selector: "app-entries",
+  templateUrl: "./entries.component.html",
   providers: [EntriesService, DatePipe],
-  styleUrls: ['./entries.component.css']
+  styleUrls: ["./entries.component.css"]
 })
 export class EntriesComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
-    'plate',
-    'date_arrival',
-    'hour_arrival',
-    'place'
+    "id",
+    "plate",
+    "date_arrival",
+    "hour_arrival",
+    "place"
   ];
   dataSource: MatTableDataSource<Entry>;
 
@@ -61,8 +61,8 @@ export class EntriesComponent implements OnInit {
           ...obj,
           hour_arrival: this.datePipe.transform(
             obj.hour_arrival,
-            'hh:mm',
-            'UTC'
+            "hh:mm",
+            "UTC"
           )
         };
       });
@@ -126,7 +126,7 @@ export class EntriesComponent implements OnInit {
               this.getData();
               this.openSnackBar({
                 message,
-                action: 'Exit'
+                action: "Exit"
               });
             }
           }
