@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Directive } from "@angular/core";
+import { Component, Inject, OnInit, Directive } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,16 +7,16 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from "@angular/material";
+} from '@angular/material';
 
-import { Exit } from "../exits";
-import { ExitsService } from "../exits.service";
-import * as _ from "lodash";
+import { Exit } from '../exits';
+import { ExitsService } from '../exits.service';
+import * as _ from 'lodash';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -28,9 +28,9 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: "dialog-exits",
+  selector: 'dialog-exits',
   providers: [ExitsService],
-  templateUrl: "dialog.exits.component.html"
+  templateUrl: 'dialog.exits.component.html'
 })
 export class DialogExit implements OnInit {
   entryForm: FormGroup;
@@ -63,28 +63,10 @@ export class DialogExit implements OnInit {
 
   ngOnInit() {
     const { entry } = this.data;
-    const { date_arrival = "", plate = "", hour_arrival = "", place = "" } =
-      entry || {};
+    const { date_departure = '', hour_departure = '' } = entry || {};
     this.entryForm = this.formBuilder.group({
-      plate: [
-        plate,
-        [
-          Validators.required,
-          (control: AbstractControl) => {
-            let val = control.value;
-            try {
-              return !/^[a-zA-Z]{3}-[0-9]{3}$/.test(val)
-                ? { invalidPlate: true }
-                : null;
-            } catch (error) {
-              return { invalidPlate: true };
-            }
-          }
-        ]
-      ],
-      date_arrival: [date_arrival, Validators.required],
-      place: [place, Validators.required],
-      hour_arrival: [hour_arrival]
+      date_departure: [date_departure, Validators.required],
+      hour_departure: [hour_departure]
     });
 
     // get return url from route parameters or default to '/'
@@ -97,7 +79,7 @@ export class DialogExit implements OnInit {
 
   add(): void {
     const entryForm = this.entryForm.controls;
-    const { plate, date_arrival, place, hour_arrival } = entryForm;
+    const { plate, date_departure, place, hour_departure } = entryForm;
     this.submitted = true;
     _.forEach(entryForm, control => {
       /**
@@ -113,18 +95,16 @@ export class DialogExit implements OnInit {
     this.loading = true;
     // The server will geneentry the id for this new hero
     const newExits: Exit = {
-      plate: plate.value,
-      place: place.value,
-      date_arrival: date_arrival.value,
-      hour_arrival: hour_arrival.value
+      date_departure: date_departure.value,
+      hour_departure: hour_departure.value
     } as Exit;
     if (this.isNew) {
       this.exitsService.addExit(newExits).subscribe(res => {
         const { message, success } = res;
         if (success) {
           this.openSnackBar({
-            message: message,
-            action: "Dance"
+            message,
+            action: 'Exit'
           });
           this.closeDialog();
           this.getData();
@@ -132,7 +112,7 @@ export class DialogExit implements OnInit {
           const { errors } = res;
           this.openSnackBar({
             message: errors,
-            action: "Dance"
+            action: 'Exit'
           });
         }
       });
@@ -144,8 +124,8 @@ export class DialogExit implements OnInit {
           const { success, message } = res;
           if (success) {
             this.openSnackBar({
-              message: message,
-              action: "Dance"
+              message,
+              action: 'Exit'
             });
             this.closeDialog();
             this.getData();

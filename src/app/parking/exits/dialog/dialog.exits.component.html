@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>
   <ng-container *ngIf="isNew">Registro de vehiculo.</ng-container>
   <ng-container *ngIf="!isNew">
-    Edicion de vehiculo {{ data.entry.date_arrival }}
+    Edicion de vehiculo {{ data.entry.date_departure }}
   </ng-container>
 </h2>
 <mat-dialog-content class="mat-typography">
@@ -35,10 +35,10 @@
         <input
           matInput
           type="date"
-          formControlName="date_arrival"
+          formControlName="date_departure"
           placeholder="Fecha de ingreso"
         />
-        <mat-error *ngIf="submitted && f.date_arrival.errors">
+        <mat-error *ngIf="submitted && f.date_departure.errors">
           getErrorMessage()
         </mat-error>
       </mat-form-field>
@@ -48,12 +48,12 @@
         <input
           matInput
           type="time"
-          formControlName="hour_arrival"
+          formControlName="hour_departure"
           [errorStateMatcher]="errorMatcher"
           placeholder="Hora de ingreso"
         />
-        <mat-error *ngIf="f.hour_arrival.errors">
-          <ng-container *ngIf="f.hour_arrival.errors?.invalidNumber">
+        <mat-error *ngIf="f.hour_departure.errors">
+          <ng-container *ngIf="f.hour_departure.errors?.invalidNumber">
             Debe escribir un numero valido.
           </ng-container>
         </mat-error>
