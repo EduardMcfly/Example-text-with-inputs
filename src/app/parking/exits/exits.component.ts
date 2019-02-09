@@ -1,29 +1,33 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { DatePipe } from '@angular/common';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { DatePipe } from "@angular/common";
+import { MatDialog, MatSnackBar } from "@angular/material";
+import { Subscription } from "rxjs";
 
-import { Exit } from './exits';
-import { ExitsService } from './exits.service';
-import * as _ from 'lodash';
-import { DialogExit } from './dialog/dialog.exits.component';
-import { DialogConfirm } from '../../components/dialog.confirm/dialog.confirm.component';
-import { DialogCreateExit } from '../entries';
+import { Exit } from "./exits";
+import { ExitsService } from "./exits.service";
+import * as _ from "lodash";
+import { DialogExit } from "./dialog/dialog.exits.component";
+import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
+import { DialogCreateExit } from "../entries";
 
 @Component({
-  selector: 'app-exits',
-  templateUrl: './exits.component.html',
+  selector: "app-exits",
+  templateUrl: "./exits.component.html",
   providers: [ExitsService, DatePipe],
-  styleUrls: ['./exits.component.css']
+  styleUrls: ["./exits.component.css"]
 })
 export class ExitsComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
-    'plate',
-    'date_departure',
-    'hour_departure',
-    'place'
+    "actions",
+    "plate",
+    "date_arrival",
+    "date_departure",
+    "total_time",
+    "rate_value",
+    "ammount_to_paid",
+    "discount",
+    "place"
   ];
   dataSource: MatTableDataSource<Exit>;
 
@@ -32,7 +36,8 @@ export class ExitsComponent implements OnInit {
 
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
-  exits: Exit[];
+
+  loading;
 
   constructor(
     public dialog: MatDialog,
@@ -46,22 +51,62 @@ export class ExitsComponent implements OnInit {
   }
 
   getData() {
-    this.exitsService.getExits().subscribe(entry => {
+    this.exitsService.getExits().subscribe(async entry => {
       const { data } = entry;
-      this.exits = data.map((obj, key) => {
-        return {
-          ...obj,
-          hour_departure: this.datePipe.transform(
-            obj.hour_departure,
-            'hh:mm',
-            'UTC'
-          )
-        };
-      });
+      this.loading = true;
+      Promise.all(
+        data.map(async exit => {
+          return new Promise(resolve => {
+            this.exitsService.getExitDetails(exit.id).subscribe(({ data }) => {
+              const { rate, entry, ...rest }: any = data;
+              const {
+                value: rate_value,
+                name: rate_name,
+                description: rate_description
+              }: {
+                value: string;
+                name: string;
+                description: string;
+              } = rate;
+              const {
+                place,
+                time_entry_format,
+                vehicle
+              }: {
+                place: string;
+                time_entry_format: string;
+                vehicle: {
+                  plate: string;
+                  brand: string;
+                  year: number;
+                };
+              } = entry;
 
-      this.dataSource = new MatTableDataSource(this.exits);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+              resolve({
+                dataAll: data,
+                ...(rest as Exit),
+                date_departure: exit.date_departure,
+                hour_departure: this.datePipe.transform(
+                  exit.hour_departure,
+                  "hh:mm",
+                  "UTC"
+                ),
+                plate: vehicle.plate,
+                place,
+                time_entry_format,
+                rate_value,
+                rate_name,
+                rate_description
+              });
+            });
+          });
+        })
+      ).then(completed => {
+        this.loading = false;
+        this.dataSource = new MatTableDataSource(completed as Exit[]);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
     });
   }
 
@@ -133,7 +178,7 @@ export class ExitsComponent implements OnInit {
               this.getData();
               this.openSnackBar({
                 message,
-                action: 'Exit'
+                action: "Exit"
               });
             }
           }
