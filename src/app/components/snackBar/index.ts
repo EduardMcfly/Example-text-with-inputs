@@ -8,7 +8,7 @@ import { MatSnackBar } from "@angular/material";
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput value="Dance" placeholder="Action" #action />
+      <input matInput value="Exit" placeholder="Action" #action />
     </mat-form-field>
   `,
   styles: [
