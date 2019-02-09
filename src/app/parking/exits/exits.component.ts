@@ -36,8 +36,8 @@ export class ExitsComponent implements OnInit {
       this.exits = data.map((obj, key) => {
         return {
           ...obj,
-          hour_arrival: this.datePipe.transform(
-            obj.hour_arrival,
+          hour_departure: this.datePipe.transform(
+            obj.hour_departure,
             "hh:mm",
             "UTC"
           )
@@ -82,7 +82,7 @@ export class ExitsComponent implements OnInit {
           this.getData();
           this.openSnackBar({
             message: message,
-            action: "Dance"
+            action: "Exit"
           });
         }
       }

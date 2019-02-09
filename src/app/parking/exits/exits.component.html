@@ -1,14 +1,7 @@
 <div class="grid-container">
   <h1 class="mat-h1 font-weight-light text-center mt-3">
-    Vehiculos actualmente en el parqueadero
+    historial de vehiculos que han estado en el parkeadero.
   </h1>
-  <button
-    mat-raised-button
-    color="accent"
-    (click)="openDialog({ isNew: true })"
-  >
-    Nuevo Ingreso.
-  </button>
   <div class="row">
     <div class="col-12 justify-content-center d-flex my-2" *ngIf="!exits">
       <mat-spinner></mat-spinner>
@@ -47,13 +40,13 @@
             <mat-card-subtitle class="mb-2"
               >Fecha de ingreso:
             </mat-card-subtitle>
-            <p>{{ entry.date_arrival }}</p>
+            <p>{{ entry.date_departure }}</p>
           </div>
           <div class="d-block">
             <mat-card-subtitle class="mb-2"
               >Hora de ingreso:
             </mat-card-subtitle>
-            <p>{{ entry.hour_arrival }}</p>
+            <p>{{ entry.hour_departure }}</p>
           </div>
         </mat-card-content>
         <mat-card-actions>

@@ -17,6 +17,8 @@ import {
 import { Exit, ExitsService } from "../../exits/index";
 import * as _ from "lodash";
 
+import { Rate, RatesService } from "../../../rates/index";
+
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
@@ -33,16 +35,17 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 export class DialogCreateExit implements OnInit {
   entryForm: FormGroup;
   submitted = false;
-  rates = [];
   loading = false;
   getData: Function;
   openSnackBar: Function;
   isNew: boolean;
   errorMatcher = new CrossFieldErrorMatcher();
+  rates: Rate[];
 
   constructor(
     public dialogRef: MatDialogRef<DialogCreateExit>,
     private formBuilder: FormBuilder,
+    private ratesService: RatesService,
     private exitsService: ExitsService,
     private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA)
@@ -56,6 +59,7 @@ export class DialogCreateExit implements OnInit {
   }
 
   ngOnInit() {
+    this.getRates();
     this.entryForm = this.formBuilder.group({
       rate: ["", Validators.required],
       date_departure: [
@@ -67,8 +71,15 @@ export class DialogCreateExit implements OnInit {
         Validators.required
       ]
     });
+  }
 
-    // get return url from route parameters or default to '/'
+  getRates() {
+    this.ratesService.getRates().subscribe(rate => {
+      const { data } = rate;
+      this.rates = data.map((obj, key) => {
+        return { ...obj, cols: 1, rows: 1 };
+      });
+    });
   }
 
   // convenience getter for easy access to form fields
