@@ -8,6 +8,7 @@ import {
   FormGroupDirective,
   NgForm
 } from "@angular/forms";
+import { DatePipe } from "@angular/common";
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -29,7 +30,7 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: "dialog-entries",
-  providers: [EntriesService],
+  providers: [EntriesService, DatePipe],
   templateUrl: "dialog.entries.component.html"
 })
 export class DialogEntry implements OnInit {
@@ -47,6 +48,7 @@ export class DialogEntry implements OnInit {
     public dialogRef: MatDialogRef<DialogEntry>,
     private formBuilder: FormBuilder,
     private entriesService: EntriesService,
+    private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       entry: Entry;
@@ -63,8 +65,12 @@ export class DialogEntry implements OnInit {
 
   ngOnInit() {
     const { entry } = this.data;
-    const { date_arrival = "", plate = "", hour_arrival = "", place = "" } =
-      entry || {};
+    const {
+      date_arrival = this.datePipe.transform(new Date(), "yyyy-MM-dd"),
+      plate = "",
+      hour_arrival = this.datePipe.transform(new Date(), "hh:mm"),
+      place = ""
+    } = entry || {};
     this.entryForm = this.formBuilder.group({
       plate: [
         plate,
@@ -124,7 +130,7 @@ export class DialogEntry implements OnInit {
         if (success) {
           this.openSnackBar({
             message: message,
-            action: "Dance"
+            action: "Exit"
           });
           this.closeDialog();
           this.getData();
@@ -132,7 +138,7 @@ export class DialogEntry implements OnInit {
           const { errors } = res;
           this.openSnackBar({
             message: errors,
-            action: "Dance"
+            action: "Exit"
           });
         }
       });
@@ -145,7 +151,7 @@ export class DialogEntry implements OnInit {
           if (success) {
             this.openSnackBar({
               message: message,
-              action: "Dance"
+              action: "Exit"
             });
             this.closeDialog();
             this.getData();
