@@ -1,29 +1,28 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
-import { DatePipe } from "@angular/common";
-import { MatDialog, MatSnackBar } from "@angular/material";
-import { Subscription } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
-import { Entry } from "./entries";
-import { Rate, RatesService } from "../../rates/index";
-import { EntriesService } from "./entries.service";
-import * as _ from "lodash";
-import { DialogEntry, DialogCreateExit } from "./";
-import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
+import { Entry } from './entries';
+import { EntriesService } from './entries.service';
+import * as _ from 'lodash';
+import { DialogEntry, DialogCreateExit } from './';
+import { DialogConfirm } from '../../components/dialog.confirm/dialog.confirm.component';
 
 @Component({
-  selector: "app-entries",
-  templateUrl: "./entries.component.html",
+  selector: 'app-entries',
+  templateUrl: './entries.component.html',
   providers: [EntriesService, DatePipe],
-  styleUrls: ["./entries.component.css"]
+  styleUrls: ['./entries.component.css']
 })
 export class EntriesComponent implements OnInit {
   displayedColumns: string[] = [
-    "id",
-    "plate",
-    "date_arrival",
-    "hour_arrival",
-    "place"
+    'id',
+    'plate',
+    'date_arrival',
+    'hour_arrival',
+    'place'
   ];
   dataSource: MatTableDataSource<Entry>;
 
@@ -33,13 +32,11 @@ export class EntriesComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
   entries: Entry[];
-  rates: Rate[];
 
   constructor(
     public dialog: MatDialog,
     private datePipe: DatePipe,
     private entriesService: EntriesService,
-    private ratesService: RatesService,
     private snackBar: MatSnackBar
   ) {
     // Assign the data to the data source for the table to render
@@ -47,16 +44,6 @@ export class EntriesComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
-    this.getRates();
-  }
-
-  getRates() {
-    this.ratesService.getRates().subscribe(rate => {
-      const { data } = rate;
-      this.rates = data.map((obj, key) => {
-        return { ...obj, cols: 1, rows: 1 };
-      });
-    });
   }
 
   applyFilter(filterValue: string) {
@@ -74,8 +61,8 @@ export class EntriesComponent implements OnInit {
           ...obj,
           hour_arrival: this.datePipe.transform(
             obj.hour_arrival,
-            "hh:mm",
-            "UTC"
+            'hh:mm',
+            'UTC'
           )
         };
       });
@@ -102,10 +89,10 @@ export class EntriesComponent implements OnInit {
   openDialogCreateExit(data) {
     const dialogRef = this.dialog.open(DialogCreateExit, {
       data: {
-        entry_id: data.id
+        entry_id: data.id,
+        isNew: data.isNew
       }
     });
-    dialogRef.componentInstance.rates = this.rates;
     dialogRef.componentInstance.getData = async () => this.getData();
     dialogRef.componentInstance.openSnackBar = async obj =>
       this.openSnackBar(obj);
@@ -138,8 +125,8 @@ export class EntriesComponent implements OnInit {
             if (success) {
               this.getData();
               this.openSnackBar({
-                message: message,
-                action: "Exit"
+                message,
+                action: 'Exit'
               });
             }
           }

@@ -1,2 +1,2 @@
-export * from "./vehicles.component";
-export * from "./dialog/dialog.vehicles.component";
+export * from './vehicles.component';
+export * from './dialog/dialog.vehicles.component';

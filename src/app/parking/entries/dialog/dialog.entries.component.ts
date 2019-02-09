@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Directive } from "@angular/core";
+import { Component, Inject, OnInit, Directive } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,17 +7,17 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from "@angular/forms";
-import { DatePipe } from "@angular/common";
+} from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from "@angular/material";
+} from '@angular/material';
 
-import { Entry } from "../entries";
-import { EntriesService } from "../entries.service";
-import * as _ from "lodash";
+import { Entry } from '../entries';
+import { EntriesService } from '../entries.service';
+import * as _ from 'lodash';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -29,9 +29,9 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: "dialog-entries",
+  selector: 'dialog-entries',
   providers: [EntriesService, DatePipe],
-  templateUrl: "dialog.entries.component.html"
+  templateUrl: 'dialog.entries.component.html'
 })
 export class DialogEntry implements OnInit {
   entryForm: FormGroup;
@@ -66,10 +66,10 @@ export class DialogEntry implements OnInit {
   ngOnInit() {
     const { entry } = this.data;
     const {
-      date_arrival = this.datePipe.transform(new Date(), "yyyy-MM-dd"),
-      plate = "",
-      hour_arrival = this.datePipe.transform(new Date(), "hh:mm"),
-      place = ""
+      date_arrival = this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      plate = '',
+      hour_arrival = this.datePipe.transform(new Date(), 'hh:mm'),
+      place = ''
     } = entry || {};
     this.entryForm = this.formBuilder.group({
       plate: [
@@ -77,7 +77,7 @@ export class DialogEntry implements OnInit {
         [
           Validators.required,
           (control: AbstractControl) => {
-            let val = control.value;
+            const val = control.value;
             try {
               return !/^[a-zA-Z]{3}-[0-9]{3}$/.test(val)
                 ? { invalidPlate: true }
@@ -129,8 +129,8 @@ export class DialogEntry implements OnInit {
         const { message, success } = res;
         if (success) {
           this.openSnackBar({
-            message: message,
-            action: "Exit"
+            message,
+            action: 'Exit'
           });
           this.closeDialog();
           this.getData();
@@ -138,7 +138,7 @@ export class DialogEntry implements OnInit {
           const { errors } = res;
           this.openSnackBar({
             message: errors,
-            action: "Exit"
+            action: 'Exit'
           });
         }
       });
@@ -150,8 +150,8 @@ export class DialogEntry implements OnInit {
           const { success, message } = res;
           if (success) {
             this.openSnackBar({
-              message: message,
-              action: "Exit"
+              message,
+              action: 'Exit'
             });
             this.closeDialog();
             this.getData();

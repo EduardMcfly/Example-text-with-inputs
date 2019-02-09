@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Directive } from "@angular/core";
+import { Component, Inject, OnInit, Directive } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,17 +7,17 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from "@angular/material";
+} from '@angular/material';
 
-import { Vehicle } from "../vehicles";
-import { VehiclesService } from "../vehicles.service";
-import * as _ from "lodash";
-import isNumeric from "validator/lib/isNumeric";
+import { Vehicle } from '../vehicles';
+import { VehiclesService } from '../vehicles.service';
+import * as _ from 'lodash';
+import isNumeric from 'validator/lib/isNumeric';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -29,9 +29,9 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: "dialog-vehicles",
+  selector: 'dialog-vehicles',
   providers: [VehiclesService],
-  templateUrl: "dialog.vehicles.component.html"
+  templateUrl: 'dialog.vehicles.component.html'
 })
 export class DialogVehicle implements OnInit {
   vehicleForm: FormGroup;
@@ -64,7 +64,7 @@ export class DialogVehicle implements OnInit {
 
   ngOnInit() {
     const { vehicle } = this.data;
-    const { brand = "", plate = "", year = "" } = vehicle || {};
+    const { brand = '', plate = '', year = '' } = vehicle || {};
     this.vehicleForm = this.formBuilder.group({
       plate: [plate, Validators.required],
       brand: [brand, Validators.required],
@@ -73,7 +73,7 @@ export class DialogVehicle implements OnInit {
         [
           Validators.required,
           (control: AbstractControl) => {
-            let val = control.value;
+            const val = control.value;
             try {
               return isNumeric(val.toString()) === false
                 ? { invalidNumber: true }
@@ -118,11 +118,11 @@ export class DialogVehicle implements OnInit {
     } as Vehicle;
     if (this.isNew) {
       this.vehiclesService.addVehicle(newVehicles).subscribe(res => {
-        const { message = "", success = false } = res || {};
+        const { message = '', success = false } = res || {};
         if (success) {
           this.openSnackBar({
-            message: message,
-            action: "Exit"
+            message,
+            action: 'Exit'
           });
           this.closeDialog();
           this.getData();
@@ -136,8 +136,8 @@ export class DialogVehicle implements OnInit {
           const { success, message } = res;
           if (success) {
             this.openSnackBar({
-              message: message,
-              action: "Exit"
+              message,
+              action: 'Exit'
             });
             this.closeDialog();
             this.getData();

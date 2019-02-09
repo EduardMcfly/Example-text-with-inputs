@@ -1,22 +1,22 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { Observable, Subject } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
+import { Observable, Subject } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
-import { Entry } from "./entries";
+import { Entry } from './entries';
 import {
   HttpErrorHandler,
   HandleError
-} from "../../http-error-handler.service";
+} from '../../http-error-handler.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Headers":
-      "Origin, X-Requested-With, Content-Type, Accept"
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json; charset=utf-8',
+    'Access-Control-Allow-Headers':
+      'Origin, X-Requested-With, Content-Type, Accept'
   })
 };
 
@@ -27,14 +27,14 @@ interface Response {
   errors: any;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class EntriesService {
-  entriesUrl = "http://powerful-brushlands-67246.herokuapp.com/api/entries"; // URL to web api
+  entriesUrl = 'http://powerful-brushlands-67246.herokuapp.com/api/entries'; // URL to web api
   private handleError: HandleError;
   private subject = new Subject<any>();
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError("EntriesService");
+    this.handleError = httpErrorHandler.createHandleError('EntriesService');
   }
 
   getMessage(): Observable<any> {
@@ -54,7 +54,7 @@ export class EntriesService {
     return this.http
       .get<{ success: boolean; data: Entry[] }>(this.entriesUrl)
       .pipe(
-        catchError(this.handleError("getEntries", { success: false, data: [] }))
+        catchError(this.handleError('getEntries', { success: false, data: [] }))
       );
   }
 
@@ -63,11 +63,11 @@ export class EntriesService {
     term = term.trim();
 
     // Add safe, URL encoded search parameter if there is a search term
-    const options = term ? { params: new HttpParams().set("name", term) } : {};
+    const options = term ? { params: new HttpParams().set('name', term) } : {};
 
     return this.http
       .get<Entry[]>(this.entriesUrl, options)
-      .pipe(catchError(this.handleError<Entry[]>("searchEntries", [])));
+      .pipe(catchError(this.handleError<Entry[]>('searchEntries', [])));
   }
 
   //////// Save methods //////////
@@ -76,11 +76,11 @@ export class EntriesService {
   addEntry(entry: Entry): Observable<Response> {
     return this.http.post<Response>(this.entriesUrl, entry).pipe(
       catchError(
-        this.handleError("addEntries", {
+        this.handleError('addEntries', {
           success: false,
           data: [],
-          message: "",
-          errors: ""
+          message: '',
+          errors: ''
         })
       )
     );
@@ -91,11 +91,11 @@ export class EntriesService {
     const url = `${this.entriesUrl}/${id}`; // DELETE api/entries/42
     return this.http.delete<Response>(url, httpOptions).pipe(
       catchError(
-        this.handleError("deleteEntries", {
+        this.handleError('deleteEntries', {
           success: false,
           data: [],
-          message: "",
-          errors: ""
+          message: '',
+          errors: ''
         })
       )
     );
@@ -104,19 +104,19 @@ export class EntriesService {
   /** PUT: update the entry on the server. Returns the updated entry upon success. */
   updateEntry(entry: Entry): Observable<Response> {
     httpOptions.headers = httpOptions.headers.set(
-      "Authorization",
-      "my-new-auth-token"
+      'Authorization',
+      'my-new-auth-token'
     );
 
     return this.http
       .put<Response>(`${this.entriesUrl}/${entry.id}`, entry, httpOptions)
       .pipe(
         catchError(
-          this.handleError("updateEntries", {
+          this.handleError('updateEntries', {
             success: false,
             data: [],
-            message: "",
-            errors: ""
+            message: '',
+            errors: ''
           })
         )
       );

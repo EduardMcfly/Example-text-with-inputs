@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
-import { MatSnackBar } from "@angular/material";
+import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 @Component({
-  selector: "snack-bar-component-snack",
+  selector: 'snack-bar-component-snack',
   template: `
     <mat-form-field>
       <input matInput value="Disco party!" placeholder="Message" #message />

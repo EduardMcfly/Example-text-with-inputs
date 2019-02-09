@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -8,17 +8,17 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from "@angular/material";
+} from '@angular/material';
 
-import { Rate } from "../rates";
-import { RatesService } from "../rates.service";
-import * as _ from "lodash";
-import isNumeric from "validator/lib/isNumeric";
+import { Rate } from '../rates';
+import { RatesService } from '../rates.service';
+import * as _ from 'lodash';
+import isNumeric from 'validator/lib/isNumeric';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -30,9 +30,9 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: "dialog-rates",
+  selector: 'dialog-rates',
   providers: [RatesService],
-  templateUrl: "dialog.rates.component.html"
+  templateUrl: 'dialog.rates.component.html'
 })
 export class DialogRate implements OnInit {
   rateForm: FormGroup;
@@ -66,7 +66,7 @@ export class DialogRate implements OnInit {
 
   ngOnInit() {
     const { rate } = this.data;
-    const { description = "", name = "", value = "" } = rate || {};
+    const { description = '', name = '', value = '' } = rate || {};
     this.rateForm = this.formBuilder.group({
       name: [name, Validators.required],
       description: [description, Validators.required],
@@ -75,7 +75,7 @@ export class DialogRate implements OnInit {
         [
           Validators.required,
           (control: AbstractControl) => {
-            let val = control.value;
+            const val = control.value;
             try {
               return isNumeric(val.toString()) === false
                 ? { invalidNumber: true }
@@ -120,12 +120,12 @@ export class DialogRate implements OnInit {
     } as Rate;
     if (this.isNew) {
       this.ratesService.addRate(newRates).subscribe(res => {
-        const { message = "", success = false } = res || {};
+        const { message = '', success = false } = res || {};
         if (success) {
           this.getData();
           this.openSnackBar({
-            message: message,
-            action: "Dance"
+            message,
+            action: 'Exit'
           });
           this.closeDialog();
         }
@@ -139,8 +139,8 @@ export class DialogRate implements OnInit {
           if (success) {
             this.getData();
             this.openSnackBar({
-              message: message,
-              action: "Dance"
+              message,
+              action: 'Exit'
             });
             this.closeDialog();
           }

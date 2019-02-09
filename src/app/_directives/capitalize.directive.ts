@@ -1,7 +1,7 @@
-import { Directive, ElementRef } from "@angular/core";
+import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: "input[capitalize]",
+  selector: 'input[capitalize]',
   // When the user updates the input
   host: {
     /* "(input)": "ref.nativeElement.value=$event.target.value.toUpperCase()" */
@@ -10,7 +10,7 @@ import { Directive, ElementRef } from "@angular/core";
 export class CapitalizeDirective {
   constructor(e: ElementRef) {
     e.nativeElement.onkeyup = e => {
-      let value = e.target.value.toUpperCase();
+      const value = e.target.value.toUpperCase();
       e.target.value = value;
     };
   }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,18 +6,18 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from "@angular/forms";
-import { DatePipe } from "@angular/common";
+} from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from "@angular/material";
+} from '@angular/material';
 
-import { Exit, ExitsService } from "../../exits/index";
-import * as _ from "lodash";
+import { Exit, ExitsService } from '../../exits/index';
+import * as _ from 'lodash';
 
-import { Rate, RatesService } from "../../../rates/index";
+import { Rate, RatesService } from '../../../rates/index';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -30,7 +30,7 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 
 @Component({
   providers: [ExitsService, DatePipe],
-  templateUrl: "dialog.create.exit.component.html"
+  templateUrl: 'dialog.create.exit.component.html'
 })
 export class DialogCreateExit implements OnInit {
   entryForm: FormGroup;
@@ -41,6 +41,7 @@ export class DialogCreateExit implements OnInit {
   isNew: boolean;
   errorMatcher = new CrossFieldErrorMatcher();
   rates: Rate[];
+  selected = -1;
 
   constructor(
     public dialogRef: MatDialogRef<DialogCreateExit>,
@@ -50,9 +51,16 @@ export class DialogCreateExit implements OnInit {
     private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      id?: number;
+      rate_id: number;
       entry_id: number;
+      isNew: boolean;
+      date_departure?: string;
+      hour_departure?: string;
     }
-  ) {}
+  ) {
+    this.isNew = data.isNew;
+  }
 
   closeDialog(data = null): void {
     this.dialogRef.close(data);
@@ -60,16 +68,15 @@ export class DialogCreateExit implements OnInit {
 
   ngOnInit() {
     this.getRates();
+    const {
+      date_departure = this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+      hour_departure = this.datePipe.transform(new Date(), 'hh:mm'),
+      rate_id = ''
+    } = this.data;
     this.entryForm = this.formBuilder.group({
-      rate: ["", Validators.required],
-      date_departure: [
-        this.datePipe.transform(new Date(), "yyyy-MM-dd"),
-        Validators.required
-      ],
-      hour_departure: [
-        this.datePipe.transform(new Date(), "hh:mm"),
-        Validators.required
-      ]
+      rate: [rate_id, Validators.required],
+      date_departure: [date_departure, Validators.required],
+      hour_departure: [hour_departure, Validators.required]
     });
   }
 
@@ -110,22 +117,45 @@ export class DialogCreateExit implements OnInit {
       date_departure: date_departure.value,
       hour_departure: hour_departure.value
     } as Exit;
-    this.exitsService.addExit(newExit).subscribe(res => {
-      const { message, success } = res;
-      if (success) {
-        this.getData();
-        this.openSnackBar({
-          message: message,
-          action: "Exit"
+    if (this.isNew) {
+      this.exitsService.addExit(newExit).subscribe(res => {
+        const { message, success } = res;
+        if (success) {
+          this.getData();
+          this.openSnackBar({
+            message,
+            action: 'Exit'
+          });
+          this.closeDialog(res);
+        } else {
+          const { errors } = res;
+          this.openSnackBar({
+            message: errors,
+            action: 'Exit'
+          });
+        }
+      });
+    } else {
+      const { id } = this.data;
+      this.exitsService
+        .updateExit({ ...newExit, id } as Exit)
+        .subscribe(res => {
+          const { message, success } = res;
+          if (success) {
+            this.getData();
+            this.openSnackBar({
+              message,
+              action: 'Exit'
+            });
+            this.closeDialog(res);
+          } else {
+            const { errors } = res;
+            this.openSnackBar({
+              message: errors,
+              action: 'Exit'
+            });
+          }
         });
-        this.closeDialog(res);
-      } else {
-        const { errors } = res;
-        this.openSnackBar({
-          message: errors,
-          action: "Exit"
-        });
-      }
-    });
+    }
   }
 }
