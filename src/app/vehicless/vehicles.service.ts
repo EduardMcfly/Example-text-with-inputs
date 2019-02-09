@@ -50,7 +50,9 @@ export class VehiclesService {
     return this.http
       .get<{ success: boolean; data: Vehicle[] }>(this.vehiclesUrl)
       .pipe(
-        catchError(this.handleError("getVehicles", { success: false, data: [] }))
+        catchError(
+          this.handleError("getVehicles", { success: false, data: [] })
+        )
       );
   }
 

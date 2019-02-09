@@ -6,7 +6,7 @@ import { Vehicle } from "./vehicles";
 import { VehiclesService } from "./vehicles.service";
 import * as _ from "lodash";
 import { DialogVehicle } from "./dialog/dialog.vehicles.component";
-
+import { DialogConfirm } from "../components/dialog.confirm/dialog.confirm.component";
 @Component({
   selector: "app-vehicles",
   templateUrl: "./vehicles.component.html",
@@ -66,17 +66,29 @@ export class VehiclesComponent implements OnInit {
   }
 
   remove({ id }: { id: number }): void {
-    this.vehiclesService.deleteVehicle(id).subscribe(
-      (res): void => {
-        const { success, message } = res;
-        if (success) {
-          this.getData();
-          this.openSnackBar({
-            message: message,
-            action: "Dance"
-          });
-        }
+    const dialogRef = this.dialog.open(DialogConfirm);
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.vehiclesService.deleteVehicle(id).subscribe(
+          (res): void => {
+            const { success, message } = res;
+            if (success) {
+              this.getData();
+              this.openSnackBar({
+                message: message,
+                action: "Exit"
+              });
+            } else {
+              this.openSnackBar({
+                message: res.errors.errors,
+                time: 3000,
+                action: "Exit"
+              });
+            }
+          },
+          err => console.log(err)
+        );
       }
-    );
+    });
   }
 }

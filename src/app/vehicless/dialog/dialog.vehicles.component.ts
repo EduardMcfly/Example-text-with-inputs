@@ -122,7 +122,7 @@ export class DialogVehicle implements OnInit {
         if (success) {
           this.openSnackBar({
             message: message,
-            action: "Dance"
+            action: "Exit"
           });
           this.closeDialog();
           this.getData();
@@ -137,7 +137,7 @@ export class DialogVehicle implements OnInit {
           if (success) {
             this.openSnackBar({
               message: message,
-              action: "Dance"
+              action: "Exit"
             });
             this.closeDialog();
             this.getData();
