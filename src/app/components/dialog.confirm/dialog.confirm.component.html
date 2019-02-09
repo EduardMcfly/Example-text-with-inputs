@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>
+  <ng-container>¿Estas seguiro de eliminar este registro?</ng-container>
+</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="row">
+    <div class="col-12">
+      <span>Si lo eliminas no podras recuperarlo.</span>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancelar</button>
+  <button mat-button cdkFocusInitial [mat-dialog-close]="true">
+    Aceptar
+  </button>
+</mat-dialog-actions>
