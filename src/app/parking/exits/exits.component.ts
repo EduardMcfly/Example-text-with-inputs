@@ -1,5 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from "@angular/animations";
+
 import { DatePipe } from "@angular/common";
 import { MatDialog, MatSnackBar } from "@angular/material";
 import { Subscription } from "rxjs";
@@ -15,7 +23,20 @@ import { DialogCreateExit } from "../entries";
   selector: "app-exits",
   templateUrl: "./exits.component.html",
   providers: [ExitsService, DatePipe],
-  styleUrls: ["./exits.component.css"]
+  styleUrls: ["./exits.component.css"],
+  animations: [
+    trigger("detailExpand", [
+      state(
+        "collapsed",
+        style({ height: "0px", minHeight: "0", display: "none" })
+      ),
+      state("expanded", style({ height: "*" })),
+      transition(
+        "expanded <=> collapsed",
+        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+      )
+    ])
+  ]
 })
 export class ExitsComponent implements OnInit {
   displayedColumns: string[] = [
@@ -35,6 +56,7 @@ export class ExitsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   subscription: Subscription;
+  expandedElement;
   /** Based on the screen size, switch from standard to one column per row */
 
   loading;
@@ -86,11 +108,7 @@ export class ExitsComponent implements OnInit {
                 dataAll: data,
                 ...(rest as Exit),
                 date_departure: exit.date_departure,
-                hour_departure: this.datePipe.transform(
-                  exit.hour_departure,
-                  "hh:mm",
-                  "UTC"
-                ),
+                hour_departure: this.hourFormat(exit.hour_departure),
                 plate: vehicle.plate,
                 place,
                 time_entry_format,
@@ -108,6 +126,10 @@ export class ExitsComponent implements OnInit {
         this.dataSource.sort = this.sort;
       });
     });
+  }
+
+  hourFormat(hour) {
+    this.datePipe.transform(hour, "hh:mm", "UTC");
   }
 
   getInfoEntrie() {}
@@ -185,5 +207,25 @@ export class ExitsComponent implements OnInit {
         );
       }
     });
+  }
+
+  convertMinutes(num) {
+    const d = Math.floor(num / 1440); // 60*24
+    const h = Math.floor((num - d * 1440) / 60);
+    const m = Math.round(num % 60);
+
+    if (d > 0) {
+      return d + " Dias, " + h + " Horas, " + m + " Minutos";
+    } else {
+      return h + " Horas, " + m + " Minutos";
+    }
+  }
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  andres(element, expandedElement) {
+    console.log(element, expandedElement);
+    this.expandedElement = expandedElement === element ? null : element;
+    /* return element; */
   }
 }

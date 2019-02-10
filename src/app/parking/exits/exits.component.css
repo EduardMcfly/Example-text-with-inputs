@@ -1,13 +1,22 @@
-.grid-container {
-  margin: 20px;
+tr.exits-detail-row {
+  height: 0;
 }
 
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
+.exits-element-row td {
+  border-bottom-width: 0;
 }
 
-.dashboard-card-content {
-  text-align: center;
+.exits-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+.actionWidthClass {
+  flex: 0 0 75px;
+}
+.customWidthClass {
+  flex: 0 0 175px;
+}
+
+.mat-column-actions {
+  width: 14% !important;
 }
