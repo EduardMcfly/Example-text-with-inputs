@@ -1,17 +1,16 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { MatDialog, MatSnackBar } from "@angular/material";
-import { Subscription } from "rxjs";
+import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
-import { Vehicle } from "./vehicles";
-import { VehiclesService } from "./vehicles.service";
-import * as _ from "lodash";
-import { DialogVehicle } from "./dialog/dialog.vehicles.component";
-import { DialogConfirm } from "../components/dialog.confirm/dialog.confirm.component";
+import { Vehicle } from './vehicles';
+import { VehiclesService } from './vehicles.service';
+import { DialogVehicle } from './dialog/dialog.vehicles.component';
+import { DialogConfirm } from '../components/dialog.confirm/dialog.confirm.component';
 @Component({
-  selector: "app-vehicles",
-  templateUrl: "./vehicles.component.html",
+  selector: 'app-vehicles',
+  templateUrl: './vehicles.component.html',
   providers: [VehiclesService],
-  styleUrls: ["./vehicles.component.css"]
+  styleUrls: ['./vehicles.component.css']
 })
 export class VehiclesComponent implements OnInit {
   subscription: Subscription;
@@ -76,13 +75,13 @@ export class VehiclesComponent implements OnInit {
               this.getData();
               this.openSnackBar({
                 message,
-                action: "Exit"
+                action: 'Exit'
               });
             } else {
               this.openSnackBar({
                 message: res.errors.errors,
                 time: 3000,
-                action: "Exit"
+                action: 'Exit'
               });
             }
           },

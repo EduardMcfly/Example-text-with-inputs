@@ -6,8 +6,8 @@ import { Subscription } from "rxjs";
 
 import { Entry } from "./entries";
 import { EntriesService } from "./entries.service";
-import * as _ from "lodash";
-import { DialogEntry, DialogCreateExit } from "./";
+import { DialogEntry } from "./dialog/dialog.entries.component";
+import { DialogCreateExit } from "./dialogCreateExit/dialog.create.exit.component";
 import { DialogSummary } from "./dialogSummary/dialog.summary.component";
 import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
 

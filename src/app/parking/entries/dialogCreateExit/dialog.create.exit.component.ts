@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -6,18 +6,20 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from '@angular/forms';
-import { DatePipe } from '@angular/common';
+} from "@angular/forms";
+import { DatePipe } from "@angular/common";
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from '@angular/material';
+} from "@angular/material";
 
-import { Exit, ExitsService } from '../../exits/index';
-import * as _ from 'lodash';
+import { ExitsService } from "../../exits/exits.service";
+import { Exit } from "../../exits/exits";
+import * as _ from "lodash";
 
-import { Rate, RatesService } from '../../../rates/index';
+import { Rate } from "../../../rates/rates";
+import { RatesService } from "../../../rates/rates.service";
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -30,7 +32,7 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 
 @Component({
   providers: [ExitsService, DatePipe],
-  templateUrl: 'dialog.create.exit.component.html'
+  templateUrl: "dialog.create.exit.component.html"
 })
 export class DialogCreateExit implements OnInit {
   entryForm: FormGroup;
@@ -69,9 +71,9 @@ export class DialogCreateExit implements OnInit {
   ngOnInit() {
     this.getRates();
     const {
-      date_departure = this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
-      hour_departure = this.datePipe.transform(new Date(), 'hh:mm'),
-      rate_id = ''
+      date_departure = this.datePipe.transform(new Date(), "yyyy-MM-dd"),
+      hour_departure = this.datePipe.transform(new Date(), "hh:mm"),
+      rate_id = ""
     } = this.data;
     this.entryForm = this.formBuilder.group({
       rate: [rate_id, Validators.required],
@@ -124,14 +126,14 @@ export class DialogCreateExit implements OnInit {
           this.getData();
           this.openSnackBar({
             message,
-            action: 'Exit'
+            action: "Exit"
           });
           this.closeDialog(res);
         } else {
           const { errors } = res;
           this.openSnackBar({
             message: errors,
-            action: 'Exit'
+            action: "Exit"
           });
         }
       });
@@ -145,14 +147,14 @@ export class DialogCreateExit implements OnInit {
             this.getData();
             this.openSnackBar({
               message,
-              action: 'Exit'
+              action: "Exit"
             });
             this.closeDialog(res);
           } else {
             const { errors } = res;
             this.openSnackBar({
               message: errors,
-              action: 'Exit'
+              action: "Exit"
             });
           }
         });

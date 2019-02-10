@@ -1,33 +1,36 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './app.module.material';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MaterialModule } from "./app.module.material";
 /* import { BrowserModule } from "@angular/platform-browser"; */
 
-import { A11yModule } from '@angular/cdk/a11y';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CdkStepperModule } from '@angular/cdk/stepper';
-import { CdkTableModule } from '@angular/cdk/table';
-import { CdkTreeModule } from '@angular/cdk/tree';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { A11yModule } from "@angular/cdk/a11y";
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { CdkStepperModule } from "@angular/cdk/stepper";
+import { CdkTableModule } from "@angular/cdk/table";
+import { CdkTreeModule } from "@angular/cdk/tree";
+import { ScrollingModule } from "@angular/cdk/scrolling";
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from '@angular/cdk/layout';
-import { SnackBarComponent } from './components/snackBar';
-import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { RatesComponent, DialogRate } from './rates';
-import { VehiclesComponent, DialogVehicle } from './vehicless';
-import { ParkingModule } from './parking/parking.module';
-import { DialogEntry, DialogExit, DialogCreateExit } from './parking';
-import { DialogSummary } from './parking/entries/dialogSummary/dialog.summary.component';
-import { HttpErrorHandler } from './http-error-handler.service';
-import { MessageService } from './message.service';
-import { RatesService } from './rates/rates.service';
-import { CapitalizeDirective } from './_directives/capitalize.directive';
-import { PlateDirective } from './_directives/plate.directive';
+import { AppComponent } from "./app.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { LayoutModule } from "@angular/cdk/layout";
+import { SnackBarComponent } from "./components/snackBar";
+import { HttpClientModule } from "@angular/common/http";
+import { AppRoutingModule } from "./app-routing.module";
+import { DialogRate } from "./rates/dialog/dialog.rates.component";
+import { RatesComponent } from "./rates/rates.component";
+import { VehiclesComponent, DialogVehicle } from "./vehicless";
+import { ParkingModule } from "./parking/parking.module";
+import { DialogEntry } from "./parking/entries/dialog/dialog.entries.component";
+import { DialogCreateExit } from "./parking/entries/dialogCreateExit/dialog.create.exit.component";
+import { DialogExit } from "./parking/exits/dialog/dialog.exits.component";
+import { DialogSummary } from "./parking/entries/dialogSummary/dialog.summary.component";
+import { HttpErrorHandler } from "./http-error-handler.service";
+import { MessageService } from "./message.service";
+import { RatesService } from "./rates/rates.service";
+import { CapitalizeDirective } from "./_directives/capitalize.directive";
+import { PlateDirective } from "./_directives/plate.directive";
 import {
   MatGridListModule,
   MatCardModule,
@@ -37,8 +40,8 @@ import {
   MatToolbarModule,
   MatSidenavModule,
   MatListModule
-} from '@angular/material';
-import { DialogConfirm } from './components/dialog.confirm/dialog.confirm.component';
+} from "@angular/material";
+import { DialogConfirm } from "./components/dialog.confirm/dialog.confirm.component";
 @NgModule({
   declarations: [
     AppComponent,

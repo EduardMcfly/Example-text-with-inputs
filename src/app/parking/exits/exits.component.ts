@@ -14,10 +14,9 @@ import { Subscription } from "rxjs";
 
 import { Exit } from "./exits";
 import { ExitsService } from "./exits.service";
-import * as _ from "lodash";
 import { DialogExit } from "./dialog/dialog.exits.component";
 import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
-import { DialogCreateExit } from "../entries";
+import { DialogCreateExit } from "../entries/dialogCreateExit/dialog.create.exit.component";
 
 @Component({
   selector: "app-exits",

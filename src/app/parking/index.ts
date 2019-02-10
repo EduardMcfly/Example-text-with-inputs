@@ -1,4 +1,3 @@
-/* export * from "./parking.module"; */
-export * from './principal/parking.component';
-export * from './entries';
-export * from './exits';
+import { ParkingComponent } from "./principal/parking.component";
+
+export { ParkingComponent };

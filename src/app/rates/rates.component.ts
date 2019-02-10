@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 
 import { Rate } from './rates';
 import { RatesService } from './rates.service';
-import * as _ from 'lodash';
 import { DialogRate } from './dialog/dialog.rates.component';
 import { DialogConfirm } from '../components/dialog.confirm/dialog.confirm.component';
 
@@ -17,7 +16,7 @@ import { DialogConfirm } from '../components/dialog.confirm/dialog.confirm.compo
 export class RatesComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
-  rates: Rate[];
+  rates: Rate[] = [];
 
   constructor(
     public dialog: MatDialog,

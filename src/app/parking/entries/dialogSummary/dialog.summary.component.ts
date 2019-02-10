@@ -17,7 +17,6 @@ import {
 
 import { Entry } from '../entries';
 import { EntriesService } from '../entries.service';
-import * as _ from 'lodash';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
