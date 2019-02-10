@@ -1,28 +1,29 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
-import { DatePipe } from "@angular/common";
-import { MatDialog, MatSnackBar } from "@angular/material";
-import { Subscription } from "rxjs";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
-import { Entry } from "./entries";
-import { EntriesService } from "./entries.service";
-import * as _ from "lodash";
-import { DialogEntry, DialogCreateExit } from "./";
-import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
+import { Entry } from './entries';
+import { EntriesService } from './entries.service';
+import * as _ from 'lodash';
+import { DialogEntry, DialogCreateExit } from './';
+import { DialogSummary } from './dialogSummary/dialog.summary.component';
+import { DialogConfirm } from '../../components/dialog.confirm/dialog.confirm.component';
 
 @Component({
-  selector: "app-entries",
-  templateUrl: "./entries.component.html",
+  selector: 'app-entries',
+  templateUrl: './entries.component.html',
   providers: [EntriesService, DatePipe],
-  styleUrls: ["./entries.component.css"]
+  styleUrls: ['./entries.component.css']
 })
 export class EntriesComponent implements OnInit {
   displayedColumns: string[] = [
-    "id",
-    "plate",
-    "date_arrival",
-    "hour_arrival",
-    "place"
+    'id',
+    'plate',
+    'date_arrival',
+    'hour_arrival',
+    'place'
   ];
   dataSource: MatTableDataSource<Entry>;
 
@@ -61,8 +62,8 @@ export class EntriesComponent implements OnInit {
           ...obj,
           hour_arrival: this.datePipe.transform(
             obj.hour_arrival,
-            "hh:mm",
-            "UTC"
+            'hh:mm',
+            'UTC'
           )
         };
       });
@@ -81,9 +82,6 @@ export class EntriesComponent implements OnInit {
     dialogRef.componentInstance.getData = async () => this.getData();
     dialogRef.componentInstance.openSnackBar = async obj =>
       this.openSnackBar(obj);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 
   openDialogCreateExit(data) {
@@ -94,17 +92,28 @@ export class EntriesComponent implements OnInit {
       }
     });
     dialogRef.componentInstance.getData = async () => this.getData();
-    dialogRef.componentInstance.openSnackBar = async obj =>
+    dialogRef.componentInstance.openSnackBar = async obj => {
       this.openSnackBar(obj);
+    };
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      const { message, data } = result;
+      const dialogSummary = this.dialog.open(DialogSummary, {
+        data: {
+          ...{
+            ...data,
+            message
+          }
+        },
+        width: '60%'
+      });
+      dialogSummary.afterClosed().subscribe(() => {});
     });
   }
 
   openSnackBar({
     message,
     action,
-    time = 1000
+    time = 3000
   }: {
     message: string;
     action: string;
@@ -126,7 +135,7 @@ export class EntriesComponent implements OnInit {
               this.getData();
               this.openSnackBar({
                 message,
-                action: "Exit"
+                action: 'Exit'
               });
             }
           }

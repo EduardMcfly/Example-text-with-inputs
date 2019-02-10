@@ -22,6 +22,7 @@ import { RatesComponent, DialogRate } from './rates';
 import { VehiclesComponent, DialogVehicle } from './vehicless';
 import { ParkingModule } from './parking/parking.module';
 import { DialogEntry, DialogExit, DialogCreateExit } from './parking';
+import { DialogSummary } from './parking/entries/dialogSummary/dialog.summary.component';
 import { HttpErrorHandler } from './http-error-handler.service';
 import { MessageService } from './message.service';
 import { RatesService } from './rates/rates.service';
@@ -45,6 +46,7 @@ import { DialogConfirm } from './components/dialog.confirm/dialog.confirm.compon
     DialogRate,
     DialogVehicle,
     DialogEntry,
+    DialogSummary,
     DialogCreateExit,
     DialogExit,
     DialogConfirm,

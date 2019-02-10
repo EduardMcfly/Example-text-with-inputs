@@ -1,54 +1,54 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import {
   animate,
   state,
   style,
   transition,
   trigger
-} from "@angular/animations";
+} from '@angular/animations';
 
-import { DatePipe } from "@angular/common";
-import { MatDialog, MatSnackBar } from "@angular/material";
-import { Subscription } from "rxjs";
+import { DatePipe } from '@angular/common';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
-import { Exit } from "./exits";
-import { ExitsService } from "./exits.service";
-import * as _ from "lodash";
-import { DialogExit } from "./dialog/dialog.exits.component";
-import { DialogConfirm } from "../../components/dialog.confirm/dialog.confirm.component";
-import { DialogCreateExit } from "../entries";
+import { Exit } from './exits';
+import { ExitsService } from './exits.service';
+import * as _ from 'lodash';
+import { DialogExit } from './dialog/dialog.exits.component';
+import { DialogConfirm } from '../../components/dialog.confirm/dialog.confirm.component';
+import { DialogCreateExit } from '../entries';
 
 @Component({
-  selector: "app-exits",
-  templateUrl: "./exits.component.html",
+  selector: 'app-exits',
+  templateUrl: './exits.component.html',
   providers: [ExitsService, DatePipe],
-  styleUrls: ["./exits.component.css"],
+  styleUrls: ['./exits.component.css'],
   animations: [
-    trigger("detailExpand", [
+    trigger('detailExpand', [
       state(
-        "collapsed",
-        style({ height: "0px", minHeight: "0", display: "none" })
+        'collapsed',
+        style({ height: '0px', minHeight: '0', display: 'none' })
       ),
-      state("expanded", style({ height: "*" })),
+      state('expanded', style({ height: '*' })),
       transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       )
     ])
   ]
 })
 export class ExitsComponent implements OnInit {
   displayedColumns: string[] = [
-    "actions",
-    "plate",
-    "date_arrival",
-    "date_departure",
-    "total_time",
-    "rate_value",
-    "ammount_to_paid",
-    "discount",
-    "place"
+    'actions',
+    'plate',
+    'date_arrival',
+    'date_departure',
+    'total_time',
+    'rate_value',
+    'ammount_to_paid',
+    'discount',
+    'place'
   ];
   dataSource: MatTableDataSource<Exit>;
 
@@ -129,7 +129,7 @@ export class ExitsComponent implements OnInit {
   }
 
   hourFormat(hour) {
-    this.datePipe.transform(hour, "hh:mm", "UTC");
+    this.datePipe.transform(hour, 'hh:mm', 'UTC');
   }
 
   getInfoEntrie() {}
@@ -200,7 +200,7 @@ export class ExitsComponent implements OnInit {
               this.getData();
               this.openSnackBar({
                 message,
-                action: "Exit"
+                action: 'Exit'
               });
             }
           }
@@ -215,13 +215,13 @@ export class ExitsComponent implements OnInit {
     const m = Math.round(num % 60);
 
     if (d > 0) {
-      return d + " Dias, " + h + " Horas, " + m + " Minutos";
+      return d + ' Dias, ' + h + ' Horas, ' + m + ' Minutos';
     } else {
-      return h + " Horas, " + m + " Minutos";
+      return h + ' Horas, ' + m + ' Minutos';
     }
   }
   numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   andres(element, expandedElement) {
     console.log(element, expandedElement);
