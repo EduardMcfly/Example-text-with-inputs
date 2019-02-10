@@ -6,18 +6,26 @@
     <div class="col-12 justify-content-center d-flex my-2" *ngIf="loading">
       <mat-spinner></mat-spinner>
     </div>
+    <div
+      class="col-12 justify-content-center d-flex my-2"
+      *ngIf="exits.length === 0 && !loading"
+    >
+      <div class="h4 font-weight-lighter">
+        No hay Registrados
+      </div>
+    </div>
     <div class="col-12 my-2">
       <mat-form-field class="w-100">
         <input
           matInput
           (keyup)="applyFilter($event.target.value)"
-          placeholder="Filter"
+          placeholder="Filtro"
         />
       </mat-form-field>
       <div class="mat-elevation-z8 container overflow-auto">
         <table
           mat-table
-          class="w-100 {{ loading ? 'd-none' : '' }}"
+          class="w-100"
           [dataSource]="dataSource"
           matSort
           multiTemplateDataRows

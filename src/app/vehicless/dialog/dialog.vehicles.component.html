@@ -10,7 +10,7 @@
       <mat-form-field class="w-100">
         <input matInput formControlName="plate" placeholder="Placa" plate />
         <mat-error *ngIf="submitted && f.plate.errors">
-          getErrorMessage()
+          Este campo es requerido.
         </mat-error>
       </mat-form-field>
     </div>
@@ -18,7 +18,7 @@
       <mat-form-field class="w-100">
         <input matInput formControlName="brand" placeholder="Marca" />
         <mat-error *ngIf="submitted && f.brand.errors">
-          getErrorMessage()
+          Este campo es requerido.
         </mat-error>
       </mat-form-field>
     </div>
