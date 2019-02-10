@@ -1,17 +1,21 @@
 <div class="grid-container">
   <h1 class="mat-h1">Tarifas</h1>
   <button
-    mat-raised-button
-    color="accent"
+    class="button-float"
+    mat-fab
+    color="warn"
     (click)="openDialog({ isNew: true })"
   >
-    Nueva Tarifa
+    <mat-icon>add</mat-icon>
   </button>
   <div class="row">
     <div class="col-12 justify-content-center d-flex my-2" *ngIf="!rates">
       <mat-spinner></mat-spinner>
     </div>
-    <div class="col-12 justify-content-center d-flex my-2" *ngIf="rates.length === 0">
+    <div
+      class="col-12 justify-content-center d-flex my-2"
+      *ngIf="rates.length === 0"
+    >
       <div class="h4 font-weight-lighter">No hay tarifas registradas</div>
     </div>
     <div

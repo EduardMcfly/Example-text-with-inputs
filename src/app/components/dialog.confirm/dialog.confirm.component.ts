@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'dialog-confirm',
+  selector: 'app-dialog-confirm',
   templateUrl: 'dialog.confirm.component.html'
 })
 export class DialogConfirm implements OnInit {

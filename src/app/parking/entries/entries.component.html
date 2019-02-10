@@ -3,11 +3,12 @@
     Vehiculos actualmente en el parqueadero
   </h1>
   <button
-    mat-raised-button
-    color="accent"
+    class="button-float"
+    mat-fab
+    color="warn"
     (click)="openDialog({ isNew: true })"
   >
-    Nuevo Ingreso.
+    <mat-icon>add</mat-icon>
   </button>
   <div class="row">
     <div class="col-12 justify-content-center d-flex my-2" *ngIf="!entries">

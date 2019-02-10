@@ -1,11 +1,12 @@
 <div class="grid-container">
   <h1 class="mat-h1">Vehiculos</h1>
   <button
-    mat-raised-button
-    color="accent"
+    class="button-float"
+    mat-fab
+    color="warn"
     (click)="openDialog({ isNew: true })"
   >
-    Nuevo Vehiculo
+    <mat-icon>add</mat-icon>
   </button>
   <div class="row">
     <div class="col-12 justify-content-center d-flex my-2" *ngIf="!vehicles">
