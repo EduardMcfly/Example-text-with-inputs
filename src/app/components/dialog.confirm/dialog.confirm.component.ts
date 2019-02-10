@@ -1,12 +1,12 @@
-import { Component, Inject, OnInit, Directive } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Component, Inject, OnInit, Directive } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 @Component({
-  selector: "dialog-confirm",
-  templateUrl: "dialog.confirm.component.html"
+  selector: 'dialog-confirm',
+  templateUrl: 'dialog.confirm.component.html'
 })
 export class DialogConfirm implements OnInit {
   entryForm: FormGroup;
