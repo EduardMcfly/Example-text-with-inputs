@@ -9,7 +9,7 @@
       <mat-card class="flex-fill w-100">
         <mat-card-header>
           <mat-card-title class="ml-n3">
-            {{ data.vehicle?.plate }}
+            {{ data.entry?.vehicle?.plate }}
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -48,7 +48,9 @@
           <div class="d-block ml-1 mb-1">
             <div class="d-flex my-auto align-items-center">
               <mat-card-subtitle class="my-auto">Lugar: </mat-card-subtitle>
-              <p class="ml-auto my-auto font-weight-bold">{{ data.entry.place }}</p>
+              <p class="ml-auto my-auto font-weight-bold">
+                {{ data.entry.place }}
+              </p>
             </div>
           </div>
           <div class="d-block ml-1">
