@@ -17,7 +17,7 @@ export class DialogConfirm implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       isNew: boolean;
-      reloadData: Function;
+
     }
   ) {}
 

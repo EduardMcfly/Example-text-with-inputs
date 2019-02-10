@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Directive } from "@angular/core";
+import { Component, Inject, OnInit, Directive } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,16 +6,16 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from "@angular/material";
+} from '@angular/material';
 
-import { Exit } from "../exits";
-import { ExitsService } from "../exits.service";
-import * as _ from "lodash";
+import { Exit } from '../exits';
+import { ExitsService } from '../exits.service';
+import * as _ from 'lodash';
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -27,16 +27,16 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: "dialog-exits",
+  selector: 'dialog-exits',
   providers: [ExitsService],
-  templateUrl: "dialog.exits.component.html"
+  templateUrl: 'dialog.exits.component.html'
 })
 export class DialogExit implements OnInit {
   entryForm: FormGroup;
   submitted = false;
   loading = false;
-  getData: Function;
-  openSnackBar: Function;
+  getData: () => void;
+  openSnackBar: (config) => void;
   isNew: boolean;
   heroes: Exit[];
   editExits: Exit; // the hero currently being edited
@@ -50,7 +50,7 @@ export class DialogExit implements OnInit {
     public data: {
       entry: Exit;
       isNew: boolean;
-      reloadData: Function;
+
     }
   ) {
     this.isNew = data.isNew;
@@ -62,7 +62,7 @@ export class DialogExit implements OnInit {
 
   ngOnInit() {
     const { entry } = this.data;
-    const { date_departure = "", hour_departure = "" } = entry || {};
+    const { date_departure = '', hour_departure = '' } = entry || {};
     this.entryForm = this.formBuilder.group({
       date_departure: [date_departure, Validators.required],
       hour_departure: [hour_departure]
@@ -103,7 +103,7 @@ export class DialogExit implements OnInit {
         if (success) {
           this.openSnackBar({
             message,
-            action: "Exit"
+            action: 'Exit'
           });
           this.closeDialog();
           this.getData();
@@ -111,7 +111,7 @@ export class DialogExit implements OnInit {
           const { errors } = res;
           this.openSnackBar({
             message: errors,
-            action: "Exit"
+            action: 'Exit'
           });
         }
       });
@@ -124,7 +124,7 @@ export class DialogExit implements OnInit {
           if (success) {
             this.openSnackBar({
               message,
-              action: "Exit"
+              action: 'Exit'
             });
             this.closeDialog();
             this.getData();

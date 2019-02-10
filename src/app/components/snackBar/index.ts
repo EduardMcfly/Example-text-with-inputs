@@ -29,7 +29,7 @@ export class SnackBarComponent {
     message: string;
     action: string;
     time?: number;
-  }) {
+  }): void {
     this.snackBar.open(message, action, {
       duration: time
     });

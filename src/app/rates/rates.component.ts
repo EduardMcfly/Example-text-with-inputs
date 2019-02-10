@@ -29,7 +29,7 @@ export class RatesComponent implements OnInit {
     this.getData();
   }
 
-  getData() {
+  getData(): void {
     this.ratesService.getRates().subscribe(rate => {
       const { data } = rate;
       this.rates = data.map((obj, key) => {
@@ -61,7 +61,7 @@ export class RatesComponent implements OnInit {
     message: string;
     action: string;
     time?: number;
-  }) {
+  }): void {
     this.snackBar.open(message, action, {
       duration: time
     });

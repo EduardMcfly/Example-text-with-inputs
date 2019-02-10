@@ -58,8 +58,7 @@ export class ExitsComponent implements OnInit {
   exits: Exit[] = [];
   expandedElement;
   /** Based on the screen size, switch from standard to one column per row */
-
-  loading;
+  loading = true;
 
   constructor(
     public dialog: MatDialog,
@@ -72,10 +71,10 @@ export class ExitsComponent implements OnInit {
     this.getData();
   }
 
-  getData() {
+  getData(): void {
+    this.loading = true;
     this.exitsService.getExits().subscribe(async entry => {
       const { data } = entry;
-      this.loading = true;
       Promise.all(
         data.map(async exit => {
           return new Promise(resolve => {
@@ -120,11 +119,11 @@ export class ExitsComponent implements OnInit {
           });
         })
       ).then(completed => {
-        this.loading = false;
         this.exits = completed as Exit[];
         this.dataSource = new MatTableDataSource(this.exits);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.loading = false;
       });
     });
   }
@@ -184,7 +183,7 @@ export class ExitsComponent implements OnInit {
     message: string;
     action: string;
     time?: number;
-  }) {
+  }): void {
     this.snackBar.open(message, action, {
       duration: time
     });

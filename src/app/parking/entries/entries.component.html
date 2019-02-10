@@ -21,7 +21,7 @@
         No hay Registrados
       </div>
     </div>
-    <div class="col-12 my-2">
+    <div class="col-12 my-2 {{ entries.length === 0 ? 'd-none' : '' }}">
       <mat-form-field>
         <input
           matInput

@@ -37,8 +37,8 @@ export class DialogVehicle implements OnInit {
   vehicleForm: FormGroup;
   submitted = false;
   loading = false;
-  getData: Function;
-  openSnackBar: Function;
+  getData: () => void;
+  openSnackBar: (config) => void;
   isNew: boolean;
   heroes: Vehicle[];
   editVehicles: Vehicle; // the hero currently being edited

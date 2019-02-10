@@ -27,7 +27,7 @@ export class VehiclesComponent implements OnInit {
     this.getData();
   }
 
-  getData() {
+  getData(): void {
     this.vehiclesService.getVehicles().subscribe(vehicle => {
       const { data } = vehicle;
       this.vehicles = data.map((obj, key) => {
@@ -58,7 +58,7 @@ export class VehiclesComponent implements OnInit {
     message: string;
     action: string;
     time?: number;
-  }) {
+  }): void {
     this.snackBar.open(message, action, {
       duration: time
     });

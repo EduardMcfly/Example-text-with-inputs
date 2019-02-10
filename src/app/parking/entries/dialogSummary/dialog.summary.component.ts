@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Directive } from '@angular/core';
+import { Component, Inject, OnInit, Directive } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -7,16 +7,16 @@ import {
   FormControl,
   FormGroupDirective,
   NgForm
-} from '@angular/forms';
-import { DatePipe } from '@angular/common';
+} from "@angular/forms";
+import { DatePipe } from "@angular/common";
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   ErrorStateMatcher
-} from '@angular/material';
+} from "@angular/material";
 
-import { Entry } from '../entries';
-import { EntriesService } from '../entries.service';
+import { Entry } from "../entries";
+import { EntriesService } from "../entries.service";
 
 class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -28,16 +28,16 @@ class CrossFieldErrorMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'dialog-summary',
+  selector: "dialog-summary",
   providers: [EntriesService, DatePipe],
-  templateUrl: 'dialog.summary.component.html'
+  templateUrl: "dialog.summary.component.html"
 })
 export class DialogSummary implements OnInit {
   entryForm: FormGroup;
   submitted = false;
   loading = false;
-  getData: Function;
-  openSnackBar: Function;
+  getData: () => void;
+  openSnackBar: (config) => void;
   isNew: boolean;
   heroes: Entry[];
   editEntries: Entry; // the hero currently being edited
@@ -45,7 +45,6 @@ export class DialogSummary implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogSummary>,
-    private datePipe: DatePipe,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       entry: {
@@ -85,12 +84,12 @@ export class DialogSummary implements OnInit {
     const m = Math.round(num % 60);
 
     if (d > 0) {
-      return d + ' Dias, ' + h + ' Horas, ' + m + ' Minutos';
+      return d + " Dias, " + h + " Horas, " + m + " Minutos";
     } else {
-      return h + ' Horas, ' + m + ' Minutos';
+      return h + " Horas, " + m + " Minutos";
     }
   }
   numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }

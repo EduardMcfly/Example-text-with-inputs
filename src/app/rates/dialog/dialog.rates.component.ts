@@ -38,8 +38,8 @@ export class DialogRate implements OnInit {
   rateForm: FormGroup;
   submitted = false;
   loading = false;
-  getData: Function;
-  openSnackBar: Function;
+  getData: () => void;
+  openSnackBar: (config) => void;
   isNew: boolean;
   heroes: Rate[];
   editRates: Rate; // the hero currently being edited

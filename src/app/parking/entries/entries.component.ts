@@ -33,6 +33,7 @@ export class EntriesComponent implements OnInit {
   subscription: Subscription;
   /** Based on the screen size, switch from standard to one column per row */
   entries: Entry[] = [];
+  loading;
 
   constructor(
     public dialog: MatDialog,
@@ -54,7 +55,8 @@ export class EntriesComponent implements OnInit {
     }
   }
 
-  getData() {
+  getData(): void {
+    this.loading = true;
     this.entriesService.getEntries().subscribe(entry => {
       const { data } = entry;
       this.entries = data.map((obj, key) => {
@@ -70,6 +72,7 @@ export class EntriesComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.entries);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.loading = false;
     });
   }
 
@@ -118,7 +121,7 @@ export class EntriesComponent implements OnInit {
     message: string;
     action: string;
     time?: number;
-  }) {
+  }): void {
     this.snackBar.open(message, action, {
       duration: time
     });
