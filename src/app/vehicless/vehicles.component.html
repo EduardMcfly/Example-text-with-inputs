@@ -49,18 +49,13 @@
         </mat-card-header>
         <mat-card-content>
           <mat-card-subtitle class="mb-2">Descripcion:</mat-card-subtitle>
-          <p>Placa: {{ vehicle.plate }} Año: {{ vehicle.yaer }}</p>
+          <p>Placa: {{ vehicle.plate }}</p>
         </mat-card-content>
         <mat-card-actions>
           <div class="text-center">
-            <h4 class="mt-0 d-flex align-items-center justify-content-center">
-              <mat-icon aria-label="Side nav toggle icon" class="mr-1">
-                monetization_on
-              </mat-icon>
-              <span>
-                {{ vehicle.year }}
-              </span>
-            </h4>
+            <h6 class="mt-0 d-flex align-items-center justify-content-center">
+              <span> Año: {{ vehicle.year }} </span>
+            </h6>
           </div>
         </mat-card-actions>
       </mat-card>

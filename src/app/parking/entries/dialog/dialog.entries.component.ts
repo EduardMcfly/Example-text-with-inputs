@@ -125,7 +125,7 @@ export class DialogEntry implements OnInit {
     } as Entry;
     if (this.isNew) {
       this.entriesService.addEntry(newEntries).subscribe(res => {
-        const { message, success } = res;
+        const { message = "", success = false } = res || {};
         if (success) {
           this.openSnackBar({
             message,
@@ -134,9 +134,9 @@ export class DialogEntry implements OnInit {
           this.closeDialog();
           this.getData();
         } else {
-          const { errors } = res;
+          entryForm.plate.setErrors({ notExist: true });
           this.openSnackBar({
-            message: errors,
+            message: message,
             action: "Exit"
           });
         }
