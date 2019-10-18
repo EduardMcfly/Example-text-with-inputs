@@ -1,27 +1,45 @@
 <div class="container">
+  <h3>Text base</h3>
+  <mat-form-field floatLabel="never" class="w-100 mb-4">
+    <textarea
+      matInput
+      placeholder=""
+      rows="4"
+      [(ngModel)]="text"
+      (keyup)="initDynamicallyForm()"
+    ></textarea>
+  </mat-form-field>
+  <h3>Form</h3>
   <div class="row" [formGroup]="entryForm">
     <div class="col-12">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, placeat
-      labore,
-      <mat-form-field floatLabel="never" style="max-width: 70px;">
-        <input
-          matInput
-          formControlName="first"
-          maxlength="7"
-          placeholder=""
-          mat-raised-button="f.first.errors"
-          [matTooltip]="f.first.errors?.diferent"
-        />
-        <mat-error *ngIf="f.first.errors"> </mat-error>
-      </mat-form-field>
-      error nisi provident, dolorum quasi consequatur veritatis quod in numquam
-      voluptatibus a exercitationem! A reiciendis deserunt doloremque porro
-      dolorem.
+      <ng-container *ngFor="let item of textEnd">
+        <ng-container *ngIf="isString(item); else elseTemplate">
+          {{ item }}
+        </ng-container>
+        <ng-template #elseTemplate>
+          <mat-form-field floatLabel="never" style="max-width: 70px;">
+            <input
+              matInput
+              formControlName="{{ item.input }}"
+              maxlength="7"
+              placeholder=""
+              mat-raised-button="f[item.input].errors"
+              [matTooltip]="f[item.input].errors?.diferent"
+            />
+            <mat-error *ngIf="f[item.input].errors">
+            </mat-error> </mat-form-field
+        ></ng-template>
+      </ng-container>
     </div>
-  </div>
-  <div>
-    <button mat-raised-button color="primary" (click)="send()" cdkFocusInitial>
-      Send
-    </button>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="send()"
+        cdkFocusInitial
+      >
+        Send
+      </button>
+    </div>
   </div>
 </div>
