@@ -13,11 +13,15 @@ interface Options {
 export class ParkingComponent implements OnInit {
   entryForm: FormGroup;
   submitted = false;
-  loading = false;
-  getData: () => void;
-  openSnackBar: (config) => void;
-  isNew: boolean;
-  options: Options = { first: ["am", "am."] };
+  /**
+   *
+   *
+   * @private
+   * @type {Options}
+   * @memberof ParkingComponent
+   * @description `Here the options are defined in each form.`
+   */
+  private options: Options = { first: ["am", "am."] };
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -47,11 +51,16 @@ export class ParkingComponent implements OnInit {
           !options.find(option => String(value).toLowerCase() === option)
         ) {
           control.setErrors({
+            /**
+             * @description
+             * `Message to show when the {value} is diferent to the`
+             * `array of options`
+             */
             diferent: "Is Diferent"
           });
         }
         /**
-         * @event realiza validaciones en todos los formularios
+         * @description `Realiza validaciones en todos los formularios`
          */
         control.markAsTouched();
       }
