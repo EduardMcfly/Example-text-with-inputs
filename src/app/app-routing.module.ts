@@ -1,20 +1,45 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RatesComponent } from './rates/rates.component';
-import { VehiclesComponent } from './vehicless';
-import { ParkingComponent } from './parking';
+import { CommonModule, DatePipe } from "@angular/common";
+import { NgModule } from "@angular/core";
+import {
+  MatGridListModule,
+  MatCardModule,
+  MatMenuModule,
+  MatIconModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatListModule
+} from "@angular/material";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
+import { MaterialModule } from "./app.module.material";
+import { RouterModule, Routes } from "@angular/router";
+import { ParkingComponent } from "./parking/parking.component";
 
 const routes: Routes = [
-  { path: 'rates', component: RatesComponent },
-  { path: 'vehicles', component: VehiclesComponent },
-  { path: 'parking', component: ParkingComponent },
-  { path: '*', redirectTo: '/parking/entries', pathMatch: 'full' },
-  { path: '', redirectTo: '/parking/entries', pathMatch: 'full' }
+  { path: "home", component: ParkingComponent },
+  { path: "*", redirectTo: "/home", pathMatch: "full" },
+  { path: "", redirectTo: "/home", pathMatch: "full" }
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [ParkingComponent],
+  imports: [
+    RouterModule.forRoot(routes),
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
+  ],
+  exports: [RouterModule],
+  providers: [DatePipe]
 })
 export class AppRoutingModule {}

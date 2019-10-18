@@ -36,3 +36,12 @@ body {
   left: auto !important;
   position: fixed !important;
 }
+
+.mat-form-field-infix {
+  border: 0;
+}
+
+.mat-form-field-wrapper {
+  margin-bottom: -1.4em;
+  padding-bottom: 0.95em;
+}

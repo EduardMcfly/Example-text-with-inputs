@@ -1,33 +1,19 @@
-import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component } from "@angular/core";
+import * as _ from "lodash";
 
 const navList: { title: string; path: string; icon?: string }[] = [
-  { path: 'parking/entries', title: 'Parqueadero', icon: 'local_parking' },
-  { path: 'vehicles', title: 'Vehículos', icon: 'directions_car' },
-  { path: 'rates', title: 'Tarifas', icon: 'attach_money' }
+  { path: "main", title: "Main", icon: "local_parking" }
 ];
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    public dialog: MatDialog
-  ) {}
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(map(result => result.matches));
-
   navList = navList;
-  title = 'ParkingHRS';
+  title = "Example";
   log = text => {
     console.log(text);
-  }
+  };
 }

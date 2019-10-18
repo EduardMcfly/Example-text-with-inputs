@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row" [formGroup]="entryForm">
+    <div class="col-12">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, placeat
+      labore,
+      <mat-form-field floatLabel="never" style="max-width: 70px;">
+        <input
+          matInput
+          formControlName="first"
+          maxlength="7"
+          placeholder=""
+          mat-raised-button="f.first.errors"
+          [matTooltip]="f.first.errors?.diferent"
+        />
+        <mat-error *ngIf="f.first.errors"> </mat-error>
+      </mat-form-field>
+      error nisi provident, dolorum quasi consequatur veritatis quod in numquam
+      voluptatibus a exercitationem! A reiciendis deserunt doloremque porro
+      dolorem.
+    </div>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="send()" cdkFocusInitial>
+      Send
+    </button>
+  </div>
+</div>
