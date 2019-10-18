@@ -22,12 +22,12 @@ export class ParkingComponent implements OnInit {
    * @memberof ParkingComponent
    * @description `Here the options are defined in each form.`
    */
-  private text: string = `Lorem #ipsum, dolor sit amet consectetur adipisicing elit. 
+  public text: string = `Lorem #ipsum, dolor sit amet consectetur adipisicing elit. 
 Ex, placeat labore, error #nisi provident, dolorum quasi consequatur veritatis quod in numquam
 voluptatibus a exercitationem! A reiciendis deserunt doloremque porro
 dolorem.`;
 
-  private textEnd: (string | { input: string })[] = [];
+  public textEnd: (string | { input: string })[] = [];
   private options: Options = { first: ["am", "am."] };
 
   constructor(private formBuilder: FormBuilder) {}
